@@ -30,25 +30,18 @@ const Main = () => {
           <Page pageNumber={pageNumber} width={1024} />
         </Document>
       </div>
-      {/* <div className="controls">
+
+      <div className="overlay left" disabled={pageNumber <= 1} onClick={() => setPageNumber(pageNumber - 1)}>
+        <p>This is an overlay div</p>
         <p>
           Page {pageNumber} of {numPages}
         </p>
-        <button
-          disabled={pageNumber <= 1}
-          onClick={() => setPageNumber(pageNumber - 1)}
-        >
-          Previous
-        </button>
-        <button
-          disabled={pageNumber >= numPages}
-          onClick={() => setPageNumber(pageNumber + 1)}
-        >
-          Next
-        </button>
-      </div> */}
-      <div className="overlay">
+      </div>
+      <div className="overlay right" disabled={pageNumber >= numPages} onClick={() => setPageNumber(pageNumber + 1)}>
         <p>This is an overlay div</p>
+        <p>
+          Page {pageNumber} of {numPages}
+        </p>
       </div>
     </div>
   );

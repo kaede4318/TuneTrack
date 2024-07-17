@@ -32,10 +32,8 @@
   
   .overlay {
     position: absolute;
-    top: 0px; /* Adjust as needed */
-    left: 0px; /* Adjust as needed */
     width: 200px; /* Adjust as needed */
-    height: 100px; /* Adjust as needed */
+    height: 1350px; /* Adjust as needed */
     background-color: rgba(0, 0, 0, 0.5); /* alpha determines degree of transparency */
     color: white;
     display: flex;
@@ -44,10 +42,12 @@
     z-index: 10; /* Ensure it's on top of other elements */
   }
 
-  .overlay left {
-    
+  .overlay.left {
+    top: 0px;
+    left: 0px;
   }
 
-  .overlay right {
-
+  .overlay.right {
+    top: 0px; 
+    right: 0px;
   }
