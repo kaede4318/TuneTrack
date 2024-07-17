@@ -25,23 +25,24 @@ const Main = () => {
       <div className="pdf-container">
         <Document
           file="/test-photos/Dave Brubeck - Three To Get Ready.pdf"
-          onLoadSuccess={onDocumentLoadSuccess}
-        >
+          onLoadSuccess={onDocumentLoadSuccess}>
           <Page pageNumber={pageNumber} width={1024} />
         </Document>
       </div>
+      <div>
+        {pageNumber > 1 && (
+          <div className="overlay left" disabled={pageNumber <= 1} onClick={() => setPageNumber(pageNumber - 1)}>
+            <p>This is an overlay div: </p>
+            <p>Page {pageNumber} of {numPages}</p>
+          </div>
+        )}
 
-      <div className="overlay left" disabled={pageNumber <= 1} onClick={() => setPageNumber(pageNumber - 1)}>
-        <p>This is an overlay div</p>
-        <p>
-          Page {pageNumber} of {numPages}
-        </p>
-      </div>
-      <div className="overlay right" disabled={pageNumber >= numPages} onClick={() => setPageNumber(pageNumber + 1)}>
-        <p>This is an overlay div</p>
-        <p>
-          Page {pageNumber} of {numPages}
-        </p>
+        {pageNumber < numPages && (
+          <div className="overlay right" disabled={pageNumber >= numPages} onClick={() => setPageNumber(pageNumber + 1)}>
+            <p>This is an overlay div: </p>
+            <p>Page {pageNumber} of {numPages}</p>
+          </div>
+        )}
       </div>
     </div>
   );

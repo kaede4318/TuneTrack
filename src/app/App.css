@@ -32,8 +32,8 @@
   
   .overlay {
     position: absolute;
-    width: 200px; /* Adjust as needed */
-    height: 1350px; /* Adjust as needed */
+    width: 50%; /* Adjust as needed */
+    height: 100%; /* Adjust as needed */
     background-color: rgba(0, 0, 0, 0.5); /* alpha determines degree of transparency */
     color: white;
     display: flex;
