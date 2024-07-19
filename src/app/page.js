@@ -22,14 +22,17 @@ const Main = () => {
 
   return (
     <div className="pdf-viewer">
+      {/* TODO: Add toolbar on top */}
       <div className="pdf-container">
+        {/* TODO: Create an input button for the PDF */}
         <Document
           file="/test-photos/Dave Brubeck - Three To Get Ready.pdf"
           onLoadSuccess={onDocumentLoadSuccess}>
-          {/* make the width variable */}
+          {/* TODO: make the width variable */}
           <Page pageNumber={pageNumber} width={window.innerWidth}/>
         </Document>
       </div>
+      {/* TODO: Need to disable flipping pages somehow when adding notes */}
       <div>
         {pageNumber > 1 && (
           <div className="overlay left" onClick={() => setPageNumber(pageNumber - 1)}>
@@ -37,7 +40,6 @@ const Main = () => {
             <p>Page {pageNumber} of {numPages}</p>
           </div>
         )}
-
         {pageNumber < numPages && (
           <div className="overlay right" onClick={() => setPageNumber(pageNumber + 1)}>
             <p>next page </p>
