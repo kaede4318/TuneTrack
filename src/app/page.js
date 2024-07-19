@@ -1,7 +1,7 @@
 //indicates that this component and all of its children should be rendered on the client side, DON'T DELETE
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import './App.css';
@@ -26,20 +26,21 @@ const Main = () => {
         <Document
           file="/test-photos/Dave Brubeck - Three To Get Ready.pdf"
           onLoadSuccess={onDocumentLoadSuccess}>
-          <Page pageNumber={pageNumber} width={1024} />
+          {/* make the width variable */}
+          <Page pageNumber={pageNumber} width={window.innerWidth}/>
         </Document>
       </div>
       <div>
         {pageNumber > 1 && (
-          <div className="overlay left" disabled={pageNumber <= 1} onClick={() => setPageNumber(pageNumber - 1)}>
-            <p>This is an overlay div: </p>
+          <div className="overlay left" onClick={() => setPageNumber(pageNumber - 1)}>
+            <p>prev page </p>
             <p>Page {pageNumber} of {numPages}</p>
           </div>
         )}
 
         {pageNumber < numPages && (
-          <div className="overlay right" disabled={pageNumber >= numPages} onClick={() => setPageNumber(pageNumber + 1)}>
-            <p>This is an overlay div: </p>
+          <div className="overlay right" onClick={() => setPageNumber(pageNumber + 1)}>
+            <p>next page </p>
             <p>Page {pageNumber} of {numPages}</p>
           </div>
         )}
