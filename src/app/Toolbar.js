@@ -1,5 +1,11 @@
+import './App.css';
+
 export default function Toolbar() {
     return (
-        <div className="toolbar">This is where the toolbar will go</div>
+        <div className="toolbar">
+          <button id="home-button" role="button">
+            Home
+          </button>
+        </div>
     );
-}
+  }

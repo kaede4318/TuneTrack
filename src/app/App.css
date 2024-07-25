@@ -59,11 +59,71 @@
     top: 0px;
     width: 100%; /* Adjust as needed */
     height: 66px; /* Adjust as needed */
-    background-color: rgba(41, 163, 174, 0.5); /* alpha determines degree of transparency */
+    background-color: rgba(41, 163, 174, 0.5);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 10; /* Ensure it's on top of other elements */
     outline: solid;
+  }
+
+  #home-button {
+    font-size: 1rem;
+    background-color: #dabfee;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    padding: 8px 16px;
+  }
+
+  .home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    color: white;
+    padding-top: 50px;
+    background-color: #dabfee;
+  }
+
+  .upload-square {
+    border: 2px solid #ffffff;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .app-name {
+    font-size: 3rem;
+    font-family: var(--font-mono);
+    color: rgb(var(--foreground-rgb));
+    margin-bottom: 50px;
+  }
+
+  .upload-text {
+    font-family: var(--font-mono);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #333;
+  }
+
+  .custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #fff;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s ease;
+    background-color: rgba(41, 163, 174, 0.5);
+  }
+
+  input[type="file"] {
+    border: 2px solid #ffffff;
+    border-radius: var(--border-radius);
+    padding: 8px;
+    font-size: 1rem;
+    display: none;
   }
