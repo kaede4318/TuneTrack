@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import './App.css';
+import Toolbar from './Toolbar.js';
 
 //provide PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -22,15 +23,18 @@ const Main = () => {
 
   return (
     <div className="pdf-viewer">
-      {/* TODO: Add toolbar on top */}
+      {/* TODO: Add buttons to Toolbar (found in Toolbar.js) */}
+      <div className="Toolbar-container"><Toolbar /></div>
       <div className="pdf-container">
         {/* TODO: Create an input button for the PDF */}
+        {/* TODO: make the width variable */}
         <Document
           file="/test-photos/Dave Brubeck - Three To Get Ready.pdf"
           onLoadSuccess={onDocumentLoadSuccess}>
-          {/* TODO: make the width variable */}
-          <Page pageNumber={pageNumber} width={window.innerWidth}/>
+          <Page pageNumber={pageNumber} width={1024}/>
+          {/* <Page pageNumber={pageNumber} width={window.innerWidth}/> */}
         </Document>
+        
       </div>
       {/* TODO: Need to disable flipping pages somehow when adding notes */}
       <div>
