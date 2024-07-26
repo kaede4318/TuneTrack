@@ -1,129 +1,142 @@
 .pdf-viewer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 0px;
-    position: relative;
-  }
-  
-  .pdf-container {
-    width: 1024px;
-    height: 1366px;
-    overflow: hidden;
-    position: absolute;
-    top: 66px;
-    margin: 0 auto; /* Center the PDF container */
-  }
-  
-  .pdf-container canvas {
-    width: 100% !important;
-    height: auto !important;
-  }
-  
-  .controls {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  button {
-    margin: 2px;
-    padding: 10px 10px;
-    font-size: 16px;
-  }
-  
-  .overlay {
-    position: absolute;
-    width: 50%; /* Adjust as needed */
-    height: 1300px; /* Adjust as needed */
-    background-color: rgba(0, 0, 0, 0.5); /* alpha determines degree of transparency */
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10; /* Ensure it's on top of other elements */
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0px;
+  position: relative;
+}
 
-  .overlay.left {
-    top: 66px;
-    left: 0px;
-  }
+.pdf-container {
+  width: 1024px;
+  height: 1366px;
+  overflow: hidden;
+  position: absolute;
+  top: 66px;
+  margin: 0 auto;
+}
 
-  .overlay.right {
-    top: 66px; 
-    right: 0px;
-  }
+.pdf-container canvas {
+  width: 100% !important;
+  height: auto !important;
+}
 
-  .toolbar {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%; /* Adjust as needed */
-    height: 66px; /* Adjust as needed */
-    background-color: rgba(41, 163, 174, 0.5);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10; /* Ensure it's on top of other elements */
-    outline: solid;
-  }
+.controls {
+  margin-top: 20px;
+  text-align: center;
+}
 
-  #home-button {
-    font-size: 1rem;
-    background-color: #dabfee;
-    color: #ffffff;
-    border: 2px solid #ffffff;
-    padding: 8px 16px;
-  }
+button {
+  margin: 5px;
+  padding: 10px 10px;
+  font-size: 16px;
+  background-color: #dabfee;
+  border: 2px solid #ffffff;
+  color: white;
+}
 
-  .home-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
-    text-align: center;
-    color: white;
-    padding-top: 50px;
-    background-color: #dabfee;
-  }
+button.active {
+  color: gray;
+}
 
-  .upload-square {
-    border: 2px solid #ffffff;
-    border-radius: var(--border-radius);
-    padding: 20px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
+.mode-icon {
+  margin-right: 20px; /* Space between the icon and the buttons */
+  font-size: 1.5rem;  /* Adjust the size of the icon */
+  color: white;       /* Color of the icon */
+}
 
-  .app-name {
-    font-size: 3rem;
-    font-family: var(--font-mono);
-    color: rgb(var(--foreground-rgb));
-    margin-bottom: 50px;
-  }
+.overlay {
+  position: absolute;
+  width: 50%; 
+  height: 1300px; 
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
 
-  .upload-text {
-    font-family: var(--font-mono);
-    margin-bottom: 10px;
-    font-size: 1.2rem;
-    color: #333;
-  }
+.overlay.left {
+  top: 66px;
+  left: 0px;
+}
 
-  .custom-file-upload {
-    display: inline-block;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 1rem;
-    color: #fff;
-    border-radius: var(--border-radius);
-    transition: background-color 0.3s ease;
-    background-color: rgba(41, 163, 174, 0.5);
-  }
+.overlay.right {
+  top: 66px; 
+  right: 0px;
+}
 
-  input[type="file"] {
-    border: 2px solid #ffffff;
-    border-radius: var(--border-radius);
-    padding: 8px;
-    font-size: 1rem;
-    display: none;
-  }
+.toolbar {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 66px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  outline: solid;
+  transition: background-color 0.3s ease;
+}
+
+.toolbar.annotate-mode {
+  background-color: rgba(41, 163, 174, 0.5);
+}
+
+.toolbar.play-mode {
+  background-color: #91aad4;
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  color: white;
+  padding-top: 50px;
+  background-color: #dabfee;
+}
+
+.upload-square {
+  border: 2px solid #ffffff;
+  border-radius: var(--border-radius);
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.app-name {
+  font-size: 3rem;
+  font-family: var(--font-mono);
+  color: rgb(var(--foreground-rgb));
+  margin-bottom: 50px;
+}
+
+.upload-text {
+  font-family: var(--font-mono);
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #fff;
+  border-radius: var(--border-radius);
+  transition: background-color 0.3s ease;
+  background-color: rgba(41, 163, 174, 0.5);
+}
+
+input[type="file"] {
+  border: 2px solid #ffffff;
+  border-radius: var(--border-radius);
+  padding: 8px;
+  font-size: 1rem;
+  display: none;
+}
