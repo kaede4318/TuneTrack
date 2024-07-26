@@ -1,3 +1,5 @@
+import './App.css';
+
 export default function Toolbar() {
     function handleClick() {
         alert("You clicked me!");
@@ -5,10 +7,9 @@ export default function Toolbar() {
 
     return (
         <div className="toolbar">
-            This is where the toolbar will go
-            <button onClick={handleClick}>Button 1</button>
-            <button onClick={handleClick}>Button 2</button>
-            <button onClick={handleClick}>Button 3</button>
+          <button id="home-button" role="button">
+            Home
+          </button>
         </div>
     );
-}
+  }
