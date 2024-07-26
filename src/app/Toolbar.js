@@ -58,7 +58,12 @@ export default function Toolbar() {
                     </button>
                 )}
             </div>
+            <div className="suggestion-button-containter">
+                <div className="suggestion">
+                    <button onClick={handleClick}>Suggestion</button>
+                </div>
             </div>
+        </div>
         </div>
     );
 }
