@@ -26,15 +26,15 @@
   }
   
   button {
-    margin: 0 10px;
-    padding: 10px 20px;
+    margin: 2px;
+    padding: 10px 10px;
     font-size: 16px;
   }
   
   .overlay {
     position: absolute;
     width: 50%; /* Adjust as needed */
-    height: 100%; /* Adjust as needed */
+    height: 1300px; /* Adjust as needed */
     background-color: rgba(0, 0, 0, 0.5); /* alpha determines degree of transparency */
     color: white;
     display: flex;
@@ -44,12 +44,12 @@
   }
 
   .overlay.left {
-    top: 50px;
+    top: 66px;
     left: 0px;
   }
 
   .overlay.right {
-    top: 50px; 
+    top: 66px; 
     right: 0px;
   }
 
