@@ -30,8 +30,12 @@ button {
   padding: 10px 10px;
   font-size: 16px;
   background-color: #dabfee;
-  border: 2px solid #ffffff;
+  border: 1px solid #ffffff;
   color: white;
+}
+
+#home-button{
+  background-color: #dabfee;
 }
 
 button.active {
@@ -39,9 +43,9 @@ button.active {
 }
 
 .mode-icon {
-  margin-right: 20px; /* Space between the icon and the buttons */
-  font-size: 1.5rem;  /* Adjust the size of the icon */
-  color: white;       /* Color of the icon */
+  margin-right: 20px;
+  font-size: 1.5rem;
+  color: white;
 }
 
 .overlay {
@@ -74,11 +78,24 @@ button.active {
   height: 66px;
   color: white;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
+  background-color: rgba(41, 163, 174, 0.5);
   z-index: 10;
   outline: solid;
   transition: background-color 0.3s ease;
+  padding: 0 20px; /* Add padding to the left and right of the toolbar */
+}
+
+.home-button-container {
+  flex: 0 0 auto;
+}
+
+.mode-buttons-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .toolbar.annotate-mode {
