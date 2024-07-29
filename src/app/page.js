@@ -6,6 +6,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import './App.css';
 import Toolbar from './Toolbar.js';
+import Canvas from "/Canvas/Canvas";
 
 //provide PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -14,6 +15,14 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 ).toString();
 
 const Main = () => {
+
+  const draw = (context, count) => {
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+    context.fillStyle = 'grey'
+    const delta = count % 800
+    context.fillRect(10,10,100,10)
+  }
+
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
 
@@ -21,7 +30,7 @@ const Main = () => {
     setNumPages(numPages);
   };
 
-  return (
+  return (<Canvas draw={draw} width="1000" height="1000"/>,
     <div className="pdf-viewer">
       {/* TODO: Add buttons to Toolbar (found in Toolbar.js) */}
       <div className="Toolbar-container"><Toolbar /></div>
