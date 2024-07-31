@@ -1,3 +1,4 @@
+"use client";
 import {useRef} from 'react'
 import React, { useEffect } from 'react';
 const Canvas = props => {

@@ -30,8 +30,9 @@ const Main = () => {
     setNumPages(numPages);
   };
 
-  return (<Canvas draw={draw} width="1000" height="1000"/>,
+  return (
     <div className="pdf-viewer">
+      <div id="root"></div> {/*root, where we mount the canvas component*/}
       {/* TODO: Add buttons to Toolbar (found in Toolbar.js) */}
       <div className="Toolbar-container"><Toolbar /></div>
       <div className="pdf-container">
