@@ -6,7 +6,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import './App.css';
 import Toolbar from './Toolbar.js';
-import Canvas from "/Canvas/Canvas";
+import Canvas from './canvas.js';
 
 //provide PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(

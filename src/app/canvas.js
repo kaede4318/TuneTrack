@@ -1,5 +1,5 @@
 import {useRef} from 'react'
-import { useEffect } from 'react/cjs/react.production.min';
+import React, { useEffect } from 'react';
 const Canvas = props => {
     const ref=useRef();
 
