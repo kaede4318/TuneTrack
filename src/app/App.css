@@ -159,3 +159,7 @@ input[type="file"] {
   font-size: 1rem;
   display: none;
 }
+
+.pagenav {
+  display: block;
+}

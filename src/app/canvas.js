@@ -9,6 +9,10 @@ const Canvas = ({ width, height }) => {
     const context = canvas.getContext('2d');
     let drawing = false;
 
+    const disablePageNavigation = () => {
+        
+    }
+
     const startDrawing = (e) => {
       drawing = true;
       draw(e);
@@ -21,7 +25,7 @@ const Canvas = ({ width, height }) => {
 
     const draw = (e) => {
       if (!drawing) return;
-      context.lineWidth = 5;
+      context.lineWidth = 4;
       context.lineCap = 'round';
       context.strokeStyle = 'red';
 
@@ -42,7 +46,7 @@ const Canvas = ({ width, height }) => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} width={width} height={height} style={{ position: 'absolute', top: 0, left: 0, zIndex: 1 }} />;
+  return <canvas ref={canvasRef} width={1024} height={1366} style={{ position: 'relative', top: 0, zIndex: 1 }} />;
 };
 
 export default Canvas;

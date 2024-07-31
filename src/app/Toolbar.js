@@ -7,6 +7,9 @@ export default function Toolbar() {
     const [annotateMode, setAnnotateMode] = useState(true);
     const [isDisabled, setDisabled] = useState(true);
 
+    const disablePageNavigation = () => {
+    }
+
     const handleClick = () => {
         alert("You clicked me!");
     };
@@ -41,7 +44,7 @@ export default function Toolbar() {
                         id="play-mode-button"
                         role="button"
                         disabled={!isDisabled}
-                        onClick={setMode}
+                        onClick={setMode, disablePageNavigation}
                         className={!annotateMode ? 'active' : ''}
                     >
                         Play Mode

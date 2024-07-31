@@ -46,7 +46,7 @@ const Main = () => {
       </div>
       <Canvas width={window.innerWidth} height={window.innerHeight} />
       {/* TODO: Need to disable flipping pages somehow when adding notes */}
-      <div>
+      <div class="pagenav">
         {pageNumber > 1 && (
           <div className="overlay left" onClick={() => setPageNumber(pageNumber - 1)}>
             <p>prev page </p>
