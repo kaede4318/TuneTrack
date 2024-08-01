@@ -48,15 +48,20 @@ const Main = () => {
       {/* TODO: Need to disable flipping pages somehow when adding notes */}
       <div class="pagenav">
         {pageNumber > 1 && (
-          <div className="overlay left" onClick={() => setPageNumber(pageNumber - 1)}>
-            <p>prev page </p>
-            <p>Page {pageNumber} of {numPages}</p>
+          <div className="overlay left">
+            <button className="nav-button" onClick={() => setPageNumber(pageNumber - 1)}>
+              Prev Page
+            </button>
           </div>
         )}
+        <div className="overlay middle">
+          Page {pageNumber} of {numPages}
+        </div>
         {pageNumber < numPages && (
-          <div className="overlay right" onClick={() => setPageNumber(pageNumber + 1)}>
-            <p>next page </p>
-            <p>Page {pageNumber} of {numPages}</p>
+          <div className="overlay right">
+            <button className="nav-button" onClick={() => setPageNumber(pageNumber + 1)}>
+              Next Page
+            </button>
           </div>
         )}
       </div>

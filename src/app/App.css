@@ -39,6 +39,10 @@ button.active {
   color: gray;
 }
 
+button:hover {
+  background-color: #c2aad2;
+}
+
 .mode-icon {
   margin-right: 20px;
   font-size: 1.5rem;
@@ -47,24 +51,38 @@ button.active {
 
 .overlay {
   position: absolute;
-  width: 50%; 
-  height: 1300px; 
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
+  height: 50px;
+  color: black;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  
 }
 
 .overlay.left {
-  top: 66px;
-  left: 0px;
+  left: 45px;
 }
 
 .overlay.right {
-  top: 66px; 
-  right: 0px;
+  right: 45px;
+}
+
+.overlay.middle {
+  left: 50%;
+}
+
+.nav-button {
+  margin: 5px;
+  padding: 10px 10px;
+  font-size: 15px;
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+}
+
+.nav-button:hover {
+  background-color: white;
+  text-decoration: underline;
 }
 
 .toolbar {
