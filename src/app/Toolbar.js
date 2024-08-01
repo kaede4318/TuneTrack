@@ -44,7 +44,7 @@ export default function Toolbar() {
                         id="play-mode-button"
                         role="button"
                         disabled={!isDisabled}
-                        onClick={setMode, disablePageNavigation}
+                        onClick={setMode}
                         className={!annotateMode ? 'active' : ''}
                     >
                         Play Mode
