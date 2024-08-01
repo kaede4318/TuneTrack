@@ -8,6 +8,8 @@ export default function Toolbar() {
     const [isDisabled, setDisabled] = useState(true);
 
     const disablePageNavigation = () => {
+        console.log("disable page navigation")
+        document.querySelector(".pagenav").hide()
     }
 
     const handleClick = () => {
@@ -35,7 +37,10 @@ export default function Toolbar() {
                         id="annotate-mode-button"
                         role="button"
                         disabled={isDisabled}
-                        onClick={setMode}
+                        onClick={() => {
+                            setMode();
+                            disablePageNavigation();
+                          }}
                         className={annotateMode ? 'active' : ''}
                     >
                         Annotate Mode
@@ -44,7 +49,7 @@ export default function Toolbar() {
                         id="play-mode-button"
                         role="button"
                         disabled={!isDisabled}
-                        onClick={setMode, disablePageNavigation}
+                        onClick={setMode}
                         className={!annotateMode ? 'active' : ''}
                     >
                         Play Mode
