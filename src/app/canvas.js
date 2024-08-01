@@ -9,10 +9,6 @@ const Canvas = ({ width, height }) => {
     const context = canvas.getContext('2d');
     let drawing = false;
 
-    const disablePageNavigation = () => {
-        
-    }
-
     const startDrawing = (e) => {
       drawing = true;
       draw(e);

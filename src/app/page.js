@@ -34,6 +34,7 @@ const Main = () => {
     <div className="pdf-viewer">
       {/* TODO: Add buttons to Toolbar (found in Toolbar.js) */}
       <div className="Toolbar-container"><Toolbar /></div>
+      <Canvas width={window.innerWidth} height={window.innerHeight} />
       <div className="pdf-container">
         {/* TODO: Create an input button for the PDF */}
         {/* TODO: make the width variable */}
@@ -44,7 +45,6 @@ const Main = () => {
           {/* <Page pageNumber={pageNumber} width={window.innerWidth}/> */}
         </Document>
       </div>
-      <Canvas width={window.innerWidth} height={window.innerHeight} />
       {/* TODO: Need to disable flipping pages somehow when adding notes */}
       <div class="pagenav">
         {pageNumber > 1 && (
