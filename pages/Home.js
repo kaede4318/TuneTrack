@@ -17,7 +17,11 @@ const Home = () => {
         <input id="file-upload" type="file" accept="application/pdf" />
       </div>
       <Link href="/Gallery" legacyBehavior>
-        <a>Go to Gallery</a>
+        <a>
+          <button id="galleryButton">
+            Go to Gallery
+          </button>
+        </a>
       </Link>
     </div>
   );
