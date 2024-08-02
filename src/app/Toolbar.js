@@ -27,7 +27,7 @@ export default function Toolbar() {
     };
 
     const fetchSuggestions = async () => {
-        setIsLoading(true); // Set loading to true when fetching starts
+        setIsLoading(true);
         const response = await fetch(
             'https://noggin.rea.gent/managerial-cockroach-7657',
             {
@@ -48,7 +48,7 @@ export default function Toolbar() {
 
         const data = JSON.parse(response);
         setSuggestions(data);
-        setIsLoading(false); // Set loading to false after fetching completes
+        setIsLoading(false);
         setIsModalOpen(true);
     };
 

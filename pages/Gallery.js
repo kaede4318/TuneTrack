@@ -10,6 +10,9 @@ const images = [
 const Gallery = () => {
   return (
     <div className="gallery">
+      <Link href="/Home" legacyBehavior>
+        <button className="back-button">Back</button>
+      </Link>
       {images.map((src, index) => (
         <div key={index} className="gallery-item">
           <Link href="/" legacyBehavior>
@@ -24,13 +27,8 @@ const Gallery = () => {
           </Link>
         </div>
       ))}
-      <Link href="/" legacyBehavior>
-        <a>Go to Page</a>
-      </Link>
     </div>
   );
 };
 
 export default Gallery;
-
-
