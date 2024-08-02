@@ -2,10 +2,15 @@ import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import fetch from 'node-fetch';
 import '../src/app/App.css';
+import * as pdfjsLib from 'pdfjs-dist';
+
+// Provide PDF.js worker
+pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 const Home = () => {
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [pngDataUrl, setPngDataUrl] = useState(null);
 
   const viewPDF = () => {
     if (selectedFile) {
@@ -16,7 +21,36 @@ const Home = () => {
     }
   };
 
+  const convertPdfToPng = async (file) => {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    const page = await pdf.getPage(1);
+    const viewport = page.getViewport({ scale: 1.5 });
+
+    // Create a native HTML5 canvas element
+    const canvas = document.createElement('canvas');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height / 3;
+    const context = canvas.getContext('2d');
+
+    // Render only the top 1/3 of the PDF page onto the canvas
+    const renderContext = {
+      canvasContext: context,
+      viewport: viewport.clone({ height: viewport.height / 3 })
+    };
+
+    await page.render(renderContext).promise;
+
+    const croppedDataUrl = canvas.toDataURL('image/png');
+    setPngDataUrl(croppedDataUrl);
+  };
+
   const extractData = async () => {
+    if (!pngDataUrl) {
+      alert("No PNG data available!");
+      return;
+    }
+
     const response = await fetch(
       'https://noggin.rea.gent/intense-sole-1123',
       {
@@ -26,20 +60,22 @@ const Home = () => {
           Authorization: 'Bearer rg_v1_01k22lhb4e9ej5advf89jmpbrnz4k1wg6hgr_ngk',
         },
         body: JSON.stringify({
-          // fill variables here.
-          // You can use an external URL or a data URL here.
-          "picture": "",
+          "picture": pngDataUrl,
         }),
       }
     ).then(response => response.text());
-  }
+
+    console.log(response);
+  };
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+    await convertPdfToPng(file);
   };
 
   return (
@@ -59,6 +95,7 @@ const Home = () => {
         />
       </div>
       <button onClick={viewPDF}>View PDF</button>
+      <button onClick={extractData}>Extract Data</button>
       <Link href="/Gallery" legacyBehavior>
         <a>
           <button id="galleryNavButton">
