@@ -1,5 +1,6 @@
 "use client";
 import './App.css';
+import Link from 'next/link';
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMusic, faPen, faHome } from '@fortawesome/free-solid-svg-icons';
@@ -20,9 +21,11 @@ export default function Toolbar() {
     return (
         <div className={`toolbar ${annotateMode ? 'annotate-mode' : 'play-mode'}`}>
             <div className="home-button-container">
-                <button id="home-button" role="button" onClick={handleClick}>
-                    <FontAwesomeIcon icon={faHome} />
-                </button>
+                <Link href="/Home">
+                    <button id="home-button" role="button">
+                        <FontAwesomeIcon icon={faHome} />
+                    </button>
+                </Link>
             </div>
             <div className="mode-buttons-container">
                 <div className="mode-icon">
