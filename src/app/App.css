@@ -223,3 +223,48 @@ input[type="file"] {
   background: rgba(255, 255, 255, 0); /* Transparent overlay */
   cursor: pointer;
 }
+
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.75);
+  position: fixed; /* Ensure it's fixed to the viewport */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000; /* Higher than the toolbar to ensure it's on top */
+}
+
+.ReactModal__Content {
+  position: absolute;
+  top: 70px; /* Adjust this to position below the toolbar */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1001; /* Ensure it's above the overlay */
+}
+
+.ReactModal__Content h2 {
+  margin-top: 0;
+}
+
+.ReactModal__Content p {
+  margin: 10px 0;
+}
+
+.ReactModal__Content button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.ReactModal__Content button:hover {
+  background-color: #d32f2f;
+}
