@@ -3,8 +3,8 @@ import Link from 'next/link';
 import '../src/app/App.css';
 
 const images = [
-  '/test-photos/thesecondwaltz.pdf',
-  '/test-photos/Dave Brubeck - Three To Get Ready.pdf',
+  '/data/the second waltz/thesecondwaltz.pdf',
+  '/data/Dave Brubeck - Three To Get Ready.pdf',
 ];
 
 const Gallery = () => {
