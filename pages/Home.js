@@ -18,7 +18,7 @@ const Home = () => {
       </div>
       <Link href="/Gallery" legacyBehavior>
         <a>
-          <button id="galleryButton">
+          <button id="galleryNavButton">
             Go to Gallery
           </button>
         </a>

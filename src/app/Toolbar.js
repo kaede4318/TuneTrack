@@ -3,7 +3,7 @@ import './App.css';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMusic, faPen, faHome } from '@fortawesome/free-solid-svg-icons';
+import { faMusic, faPen, faHome, faBook } from '@fortawesome/free-solid-svg-icons';
 
 export default function Toolbar() {
     const [annotateMode, setAnnotateMode] = useState(true);
@@ -25,6 +25,15 @@ export default function Toolbar() {
                     <button id="home-button" role="button">
                         <FontAwesomeIcon icon={faHome} />
                     </button>
+                </Link>
+            </div>
+            <div className="gallery-button-container">
+                <Link href="/Gallery" legacyBehavior>
+                    <a>
+                    <button id="galleryButton">
+                        <FontAwesomeIcon icon={faBook} />
+                    </button>
+                    </a>
                 </Link>
             </div>
             <div className="mode-buttons-container">

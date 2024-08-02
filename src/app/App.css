@@ -43,6 +43,10 @@ button:hover {
   background-color: #c2aad2;
 }
 
+#galleryButton {
+  padding: 10px 12px;
+}
+
 .mode-icon {
   margin-right: 20px;
   font-size: 1.5rem;
@@ -159,11 +163,11 @@ button:hover {
   color: #333;
 }
 
-#galleryButton {
+#galleryNavButton {
   background-color: rgba(41, 163, 174, 0.5);
 }
 
-#galleryButton:hover {
+#galleryNavButton:hover {
   background-color: #91aad4;
 }
 
