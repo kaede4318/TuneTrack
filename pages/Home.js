@@ -12,6 +12,9 @@ const Home = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [pngDataUrl, setPngDataUrl] = useState(null);
 
+  // Opens the inputted pdf in another tab
+  // We don't really need this but its nice to display the pdf back 
+  // to show that the upload was successful
   const viewPDF = () => {
     if (selectedFile) {
       const fileURL = URL.createObjectURL(selectedFile);
@@ -34,6 +37,7 @@ const Home = () => {
     const context = canvas.getContext('2d');
 
     // Render only the top 1/3 of the PDF page onto the canvas
+    // Note: we render only the top 1/3 to make the CV noggin more efficient
     const renderContext = {
       canvasContext: context,
       viewport: viewport.clone({ height: viewport.height / 3 })
@@ -43,14 +47,8 @@ const Home = () => {
 
     const croppedDataUrl = canvas.toDataURL('image/png');
     setPngDataUrl(croppedDataUrl);
-  };
 
-  const extractData = async () => {
-    if (!pngDataUrl) {
-      alert("No PNG data available!");
-      return;
-    }
-
+    // Send the cropped png to noggin
     const response = await fetch(
       'https://noggin.rea.gent/intense-sole-1123',
       {
@@ -95,7 +93,6 @@ const Home = () => {
         />
       </div>
       <button onClick={viewPDF}>View PDF</button>
-      <button onClick={extractData}>Extract Data</button>
       <Link href="/Gallery" legacyBehavior>
         <a>
           <button id="galleryNavButton">
