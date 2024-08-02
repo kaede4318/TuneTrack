@@ -173,9 +173,7 @@ export default function init() {
         }
   
         document.getElementById('note').innerText = valueToDisplay;
-        return (
-          <div id="note"></div>
-        )
+        
       }
   
       var drawFrequency = function() {
