@@ -301,3 +301,10 @@ input[type="file"] {
 .ReactModal__Content button:hover {
   background-color: #d32f2f;
 }
+
+.enabled {
+  background-color: #ff7373;
+}
+.enabled:hover {
+  background-color: #ff5959;
+}

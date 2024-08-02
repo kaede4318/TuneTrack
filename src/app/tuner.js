@@ -22,7 +22,7 @@ with the above license.
 
 */
 
-function init() {
+export default function init() {
     var source;
     var audioContext = new (window.AudioContext || window.webkitAudioContext)();
     var analyser = audioContext.createAnalyser();
@@ -36,29 +36,27 @@ function init() {
     } else {
       var constraints = {audio: true};
       navigator.mediaDevices.getUserMedia(constraints)
-        .then(
-          function(stream) {
-            // Initialize the SourceNode
-            source = audioContext.createMediaStreamSource(stream);
-            // Connect the source node to the analyzer
-            source.connect(analyser);
-            visualize();
-          }
-        )
-        .catch(function(err) {
-          alert('Sorry, microphone permissions are required for the app. Feel free to read on without playing :)')
-        });
+      .then((stream) => {
+        // Initialize the SourceNode
+          source = audioContext.createMediaStreamSource(stream);
+          // Connect the source node to the analyzer
+          source.connect(analyser);
+          visualize();
+        })
+        // .catch(function(err) {
+        //   alert('Sorry, microphone permissions are required for the app. Feel free to read on without playing :)')
+        // });
     }
   
     // Visualizing, copied from voice change o matic
-    var canvas = document.querySelector('.visualizer');
-    var canvasContext = canvas.getContext("2d");
-    var WIDTH;
-    var HEIGHT;
+    // var canvas = document.querySelector('.visualizer');
+    // var canvasContext = canvas.getContext("2d");
+    // var WIDTH;
+    // var HEIGHT;
   
     function visualize() {
-      WIDTH = canvas.width;
-      HEIGHT = canvas.height;
+      // WIDTH = canvas.width;
+      // HEIGHT = canvas.height;
   
       var drawVisual;
       var drawNoteVisual;
@@ -70,13 +68,13 @@ function init() {
         var dataArray = new Uint8Array(bufferLength);
         analyser.getByteTimeDomainData(dataArray);
   
-        canvasContext.fillStyle = 'rgb(200, 200, 200)';
-        canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
+        // canvasContext.fillStyle = 'rgb(200, 200, 200)';
+        // canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
   
-        canvasContext.lineWidth = 2;
-        canvasContext.strokeStyle = 'rgb(0, 0, 0)';
+        // canvasContext.lineWidth = 2;
+        // canvasContext.strokeStyle = 'rgb(0, 0, 0)';
   
-        canvasContext.beginPath();
+        // canvasContext.beginPath();
   
         var sliceWidth = WIDTH * 1.0 / bufferLength;
         var x = 0;
@@ -86,17 +84,17 @@ function init() {
           var v = dataArray[i] / 128.0;
           var y = v * HEIGHT/2;
   
-          if(i === 0) {
-            canvasContext.moveTo(x, y);
-          } else {
-            canvasContext.lineTo(x, y);
-          }
+          // if(i === 0) {
+          //   canvasContext.moveTo(x, y);
+          // } else {
+          //   canvasContext.lineTo(x, y);
+          // }
   
           x += sliceWidth;
         }
   
-        canvasContext.lineTo(canvas.width, canvas.height/2);
-        canvasContext.stroke();
+        // canvasContext.lineTo(canvas.width, canvas.height/2);
+        // canvasContext.stroke();
       }
   
       var previousValueToDisplay = 0;
@@ -120,7 +118,7 @@ function init() {
   
         // Handle rounding
         var valueToDisplay = autoCorrelateValue;
-        var roundingValue = document.querySelector('input[name="rounding"]:checked').value
+        var roundingValue = 'note'
         if (roundingValue == 'none') {
           // Do nothing
         } else if (roundingValue == 'hz') {
@@ -131,7 +129,7 @@ function init() {
           valueToDisplay = noteStrings[noteFromPitch(autoCorrelateValue) % 12];
         }
   
-        var smoothingValue = document.querySelector('input[name="smoothing"]:checked').value
+        var smoothingValue = 'basic'
   
   
         if (autoCorrelateValue === -1) {
@@ -175,21 +173,24 @@ function init() {
         }
   
         document.getElementById('note').innerText = valueToDisplay;
+        return (
+          <div id="note"></div>
+        )
       }
   
       var drawFrequency = function() {
         var bufferLengthAlt = analyser.frequencyBinCount;
         var dataArrayAlt = new Uint8Array(bufferLengthAlt);
   
-        canvasContext.clearRect(0, 0, WIDTH, HEIGHT);
+        // canvasContext.clearRect(0, 0, WIDTH, HEIGHT);
   
         var drawAlt = function() {
           drawVisual = requestAnimationFrame(drawAlt);
   
           analyser.getByteFrequencyData(dataArrayAlt);
   
-          canvasContext.fillStyle = 'rgb(0, 0, 0)';
-          canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
+          // canvasContext.fillStyle = 'rgb(0, 0, 0)';
+          // canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
   
           var barWidth = (WIDTH / bufferLengthAlt) * 2.5;
           var barHeight;
@@ -209,12 +210,12 @@ function init() {
         drawAlt();
       }
   
-      var displayValue = document.querySelector('input[name="display"]:checked').value
-      if (displayValue == 'sine') {
-        draw();
-      } else {
-        drawFrequency();
-      }
+      // var displayValue = document.querySelector('input[name="display"]:checked').value
+      // if (displayValue == 'sine') {
+      //   draw();
+      // } else {
+      //   drawFrequency();
+      // }
       drawNote();
     }
   }

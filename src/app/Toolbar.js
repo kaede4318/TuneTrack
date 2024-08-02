@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMusic, faPen, faHome, faBook } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
+import Practice from './practice';
 
 // Set the app element for accessibility
 if (typeof document !== 'undefined') {
@@ -16,6 +17,16 @@ export default function Toolbar() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [suggestions, setSuggestions] = useState(null);
     const [isLoading, setIsLoading] = useState(false); // New state for loading status
+
+    const PitchFeedback = () => {
+        const btn = document.getElementById("pitch-feedback-button")
+        if (btn.classList.contains("enabled")) {
+            btn.classList.remove("enabled")
+        } else {
+            btn.classList.add("enabled")
+            Practice();
+        }
+    };
 
     const handleClick = () => {
         alert("You clicked me!");
@@ -109,6 +120,12 @@ export default function Toolbar() {
                         </button>
                     )}
                 </div>
+                {!annotateMode ? (<div className="pitch-feedback">
+                    <button id="pitch-feedback-button" onClick={PitchFeedback}>
+                        Pitch Feedback
+                    </button>
+                    <div id="note"></div>
+                </div>) : null}
                 <div className="suggestion-button-container">
                     <button onClick={fetchSuggestions}>
                         {isLoading ? 'Loading...' : 'Suggestion'}
