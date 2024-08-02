@@ -39,7 +39,7 @@ const Main = () => {
         {/* TODO: Create an input button for the PDF */}
         {/* TODO: make the width variable */}
         <Document
-          file="/test-photos/thesecondwaltz.pdf"
+          file="/data/the second waltz/thesecondwaltz.pdf"
           onLoadSuccess={onDocumentLoadSuccess}>
           <Page pageNumber={pageNumber} width={1024}/>
           {/* <Page pageNumber={pageNumber} width={window.innerWidth}/> */}
