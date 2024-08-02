@@ -11,7 +11,7 @@ const Gallery = () => {
   return (
     <div className="gallery">
       <Link href="/Home" legacyBehavior>
-        <button className="back-button">Back</button>
+          <button className="back-button">Back</button>
       </Link>
       {images.map((src, index) => (
         <div key={index} className="gallery-item">
@@ -22,7 +22,7 @@ const Gallery = () => {
                 style={{ width: '100%', height: '500px' }}
                 title={`Gallery ${index}`}
               />
-              <div className="overlay">Click to go to Page</div>
+              <div className="overlay">Click to View</div>
             </a>
           </Link>
         </div>

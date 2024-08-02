@@ -155,6 +155,11 @@ button:hover {
   font-family: var(--font-mono);
   color: rgb(var(--foreground-rgb));
   margin-bottom: 50px;
+  text-shadow: 
+    1px 1px 0 rgba(41, 163, 174, 0.5),
+    -1px 1px 0 rgba(41, 163, 174, 0.5),
+    1px -1px 0 rgba(41, 163, 174, 0.5),
+    -1px -1px 0 rgba(41, 163, 174, 0.5);
 }
 
 .upload-text {
@@ -172,7 +177,6 @@ button:hover {
 #galleryNavButton:hover {
   background-color: #91aad4;
 }
-
 
 .custom-file-upload {
   display: inline-block;
@@ -227,7 +231,7 @@ input[type="file"] {
   width: 100%;
   height: 100%;
   background: rgba(255, 255, 255, 0);
-  color: purple;
+  color: #b16de6;
   display: flex;
   align-items: center;
   justify-content: center;
