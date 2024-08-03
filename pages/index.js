@@ -15,7 +15,7 @@ const Main = () => {
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
   const [drawingEnabled, setDrawingEnabled] = useState(false);
   const [eraseMode, setEraseMode] = useState(false);
-  
+  const [clearCanvas, setClearCanvas] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -33,6 +33,11 @@ const Main = () => {
     setEraseMode(true);
   };
 
+  const handleClearButtonClick = () => {
+    setClearCanvas(true);
+    setTimeout(() => setClearCanvas(false), 0);
+  };
+
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
   };
@@ -43,6 +48,7 @@ const Main = () => {
         <Toolbar
           onDrawButtonClick={handleDrawButtonClick}
           onEraseButtonClick={handleEraseButtonClick}
+          onClearButtonClick={handleClearButtonClick}
         />
       </div>
       <Canvas
@@ -50,6 +56,7 @@ const Main = () => {
         height={canvasSize.height}
         drawingEnabled={drawingEnabled}
         eraseMode={eraseMode}
+        clearCanvas={clearCanvas}
       />
       <div className="pdf-container">
         <Document

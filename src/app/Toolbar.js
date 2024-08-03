@@ -11,25 +11,23 @@ if (typeof document !== 'undefined') {
   Modal.setAppElement('#__next');
 }
 
-export default function Toolbar({ onDrawButtonClick, onEraseButtonClick }) {
-    const [pitchFeedbackEnabled, setPitchFeedbackEnabled] = useState(false)
+export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClearButtonClick }) {
+    const [pitchFeedbackEnabled, setPitchFeedbackEnabled] = useState(false);
     const [annotateMode, setAnnotateMode] = useState(true);
     const [isDisabled, setDisabled] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [suggestions, setSuggestions] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [activeButton, setActiveButton] = useState(null); 
+    const [activeButton, setActiveButton] = useState(null);
 
     const PitchFeedback = () => {
         const btn = document.getElementById("pitch-feedback-button");
         if (btn.classList.contains("enabled")) {
-            btn.classList.remove("enabled")
-            setPitchFeedbackEnabled(false)
-            console.log(pitchFeedbackEnabled)
+            btn.classList.remove("enabled");
+            setPitchFeedbackEnabled(false);
         } else {
-            btn.classList.add("enabled")
-            setPitchFeedbackEnabled(true)
-            console.log(pitchFeedbackEnabled)
+            btn.classList.add("enabled");
+            setPitchFeedbackEnabled(true);
             Practice();
         }
     };
@@ -52,6 +50,12 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick }) {
     const handleEraseClick = () => {
         onEraseButtonClick();
         setActiveButton('erase');
+    };
+
+    const handleClearClick = () => {
+        if (window.confirm('Are you sure you want to clear the canvas? This action cannot be undone.')) {
+            onClearButtonClick();
+        }
     };
 
     const fetchSuggestions = async () => {
@@ -140,6 +144,12 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick }) {
                             >
                                 Erase
                             </button>
+                            <button
+                                onClick={handleClearClick}
+                                className="clear-button"
+                            >
+                                Clear
+                            </button>
                         </>
                     )}
                     {!annotateMode && (
@@ -148,12 +158,14 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick }) {
                         </button>
                     )}
                 </div>
-                {!annotateMode ? (<div className="pitch-feedback">
-                    <button id="pitch-feedback-button" onClick={PitchFeedback}>
-                        Pitch Feedback
-                    </button>
-                    { pitchFeedbackEnabled ? <div id="note"></div> : null}
-                </div>) : null}
+                {!annotateMode ? (
+                    <div className="pitch-feedback">
+                        <button id="pitch-feedback-button" onClick={PitchFeedback}>
+                            Pitch Feedback
+                        </button>
+                        { pitchFeedbackEnabled ? <div id="note"></div> : null}
+                    </div>
+                ) : null}
                 <div className="suggestion-button-container">
                     <button onClick={fetchSuggestions}>
                         {isLoading ? 'Loading...' : 'Suggestion'}

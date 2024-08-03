@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useEffect } from 'react';
 
-const Canvas = ({ width, height, drawingEnabled, eraseMode }) => {
+const Canvas = ({ width, height, drawingEnabled, eraseMode, clearCanvas }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -45,6 +45,14 @@ const Canvas = ({ width, height, drawingEnabled, eraseMode }) => {
       context.moveTo(x, y);
     };
 
+    const clearCanvas = () => {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+    };
+
+    if (clearCanvas) {
+      clearCanvas();
+    }
+
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mouseup', endDrawing);
     canvas.addEventListener('mousemove', draw);
@@ -54,7 +62,7 @@ const Canvas = ({ width, height, drawingEnabled, eraseMode }) => {
       canvas.removeEventListener('mouseup', endDrawing);
       canvas.removeEventListener('mousemove', draw);
     };
-  }, [drawingEnabled, eraseMode]); // Update effect when drawingEnabled or eraseMode changes
+  }, [drawingEnabled, eraseMode, clearCanvas]); // Update effect when drawingEnabled, eraseMode, or clearCanvas changes
 
   return <canvas ref={canvasRef} width={width} height={height} style={{ position: 'relative', top: 0, zIndex: 1 }} />;
 };
