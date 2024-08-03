@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useEffect } from 'react';
 
-const Canvas = ({ width, height }) => {
+const Canvas = ({ width, height, drawingEnabled }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -10,17 +10,19 @@ const Canvas = ({ width, height }) => {
     let drawing = false;
 
     const startDrawing = (e) => {
+      if (!drawingEnabled) return; // Exit if drawing is not enabled
       drawing = true;
       draw(e);
     };
 
     const endDrawing = () => {
+      if (!drawingEnabled) return; // Exit if drawing is not enabled
       drawing = false;
       context.beginPath();
     };
 
     const draw = (e) => {
-      if (!drawing) return;
+      if (!drawing || !drawingEnabled) return; // Exit if not drawing or drawing is disabled
       context.lineWidth = 4;
       context.lineCap = 'round';
       context.strokeStyle = 'red';
@@ -40,9 +42,9 @@ const Canvas = ({ width, height }) => {
       canvas.removeEventListener('mouseup', endDrawing);
       canvas.removeEventListener('mousemove', draw);
     };
-  }, []);
+  }, [drawingEnabled]); // Add drawingEnabled to dependencies
 
-  return <canvas ref={canvasRef} width={1024} height={1366} style={{ position: 'relative', top: 0, zIndex: 1 }} />;
+  return <canvas ref={canvasRef} width={width} height={height} style={{ position: 'relative', top: 0, zIndex: 1 }} />;
 };
 
 export default Canvas;

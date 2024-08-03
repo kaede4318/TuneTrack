@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import './App.css';
 import Link from 'next/link';
-import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMusic, faPen, faHome, faBook } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
@@ -11,7 +11,7 @@ if (typeof document !== 'undefined') {
   Modal.setAppElement('#__next');
 }
 
-export default function Toolbar() {
+export default function Toolbar({ onDrawButtonClick }) { // Pass onDrawButtonClick as a prop
     const [annotateMode, setAnnotateMode] = useState(true);
     const [isDisabled, setDisabled] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,11 +19,11 @@ export default function Toolbar() {
     const [isLoading, setIsLoading] = useState(false);
 
     const PitchFeedback = () => {
-        const btn = document.getElementById("pitch-feedback-button")
+        const btn = document.getElementById("pitch-feedback-button");
         if (btn.classList.contains("enabled")) {
-            btn.classList.remove("enabled")
+            btn.classList.remove("enabled");
         } else {
-            btn.classList.add("enabled")
+            btn.classList.add("enabled");
             Practice();
         }
     };
@@ -110,7 +110,7 @@ export default function Toolbar() {
                 </div>
                 <div className="mode-action-button">
                     {annotateMode ? (
-                        <button onClick={handleClick}>
+                        <button onClick={onDrawButtonClick}> {/* Call the passed prop function */}
                             Draw
                         </button>
                     ) : (
