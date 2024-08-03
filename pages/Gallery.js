@@ -19,10 +19,10 @@ const Gallery = () => {
             <a className="iframe-wrapper">
               <iframe
                 src={src}
-                style={{ width: '100%', height: '500px' }}
+                style={{ width: '100%', height: '450px' }}
                 title={`Gallery ${index}`}
               />
-              <div className="overlay">Click to View</div>
+              <div className="overlay gallery">Click to View</div>
             </a>
           </Link>
         </div>

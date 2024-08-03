@@ -62,7 +62,6 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  
 }
 
 .overlay.left {
@@ -237,10 +236,10 @@ input[type="file"] {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  right: 0;
   height: 100%;
   background: rgba(255, 255, 255, 0);
-  color: rgb(160, 106, 177);
+  color: rgba(41, 163, 174, 0.792);
   display: flex;
   align-items: center;
   justify-content: center;

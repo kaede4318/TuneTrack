@@ -32,11 +32,11 @@ const Canvas = ({ width, height, drawingEnabled, eraseMode }) => {
       context.lineCap = 'round';
 
       if (eraseMode) {
-        context.globalCompositeOperation = 'destination-out'; // Set to erase mode
-        context.lineWidth = 10; // Larger line width for erasing
+        context.globalCompositeOperation = 'destination-out';
+        context.lineWidth = 30;
       } else {
-        context.globalCompositeOperation = 'source-over'; // Set to drawing mode
-        context.strokeStyle = 'red';
+        context.globalCompositeOperation = 'source-over';
+        context.strokeStyle = 'rgb(54, 100, 158)';
       }
 
       context.lineTo(x, y);
