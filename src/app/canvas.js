@@ -28,14 +28,14 @@ const Canvas = ({ width, height, drawingEnabled, eraseMode, clearCanvas }) => {
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
-      context.lineWidth = 4;
+      context.lineWidth = eraseMode ? 25 : 4;
       context.lineCap = 'round';
 
       if (eraseMode) {
-        context.globalCompositeOperation = 'destination-out';
-        context.lineWidth = 25;
+        context.globalCompositeOperation = 'destination-out'; // Erase mode
+        context.lineWidth = 30;
       } else {
-        context.globalCompositeOperation = 'source-over';
+        context.globalCompositeOperation = 'source-over'; // Drawing mode
         context.strokeStyle = 'rgb(54, 100, 158)';
       }
 
@@ -45,12 +45,14 @@ const Canvas = ({ width, height, drawingEnabled, eraseMode, clearCanvas }) => {
       context.moveTo(x, y);
     };
 
-    const clearCanvas = () => {
-      context.clearRect(0, 0, canvas.width, canvas.height);
+    const handleClearCanvas = () => {
+      if (clearCanvas) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+      }
     };
 
     if (clearCanvas) {
-      clearCanvas();
+      handleClearCanvas();
     }
 
     canvas.addEventListener('mousedown', startDrawing);
@@ -62,7 +64,7 @@ const Canvas = ({ width, height, drawingEnabled, eraseMode, clearCanvas }) => {
       canvas.removeEventListener('mouseup', endDrawing);
       canvas.removeEventListener('mousemove', draw);
     };
-  }, [drawingEnabled, eraseMode, clearCanvas]); // Update effect when drawingEnabled, eraseMode, or clearCanvas changes
+  }, [drawingEnabled, eraseMode, clearCanvas]);
 
   return <canvas ref={canvasRef} width={width} height={height} style={{ position: 'relative', top: 0, zIndex: 1 }} />;
 };
