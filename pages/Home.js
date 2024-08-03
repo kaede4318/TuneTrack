@@ -92,7 +92,7 @@ const Home = () => {
           onChange={handleFileChange}
         />
       </div>
-      <button onClick={viewPDF}>View PDF</button>
+      <button id='previewButton' onClick={viewPDF}>View Uploaded Sheet Music</button>
       <Link href="/Gallery" legacyBehavior>
         <a>
           <button id="galleryNavButton">

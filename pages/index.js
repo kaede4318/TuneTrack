@@ -1,10 +1,8 @@
-"use client";
-
 import React, { useState, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import '../src/app/App.css';
-import Toolbar from '../src/app/Toolbar.js';
+import Toolbar from '../src/app/Toolbar';
 import Canvas from '../src/app/canvas';
 import { GlobalWorkerOptions } from 'pdfjs-dist';
 
@@ -15,6 +13,8 @@ const Main = () => {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
+  const [drawingEnabled, setDrawingEnabled] = useState(false);
+  const [eraseMode, setEraseMode] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -22,11 +22,14 @@ const Main = () => {
     }
   }, []);
 
-  const draw = (context, count) => {
-    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-    context.fillStyle = 'grey';
-    const delta = count % 800;
-    context.fillRect(10, 10, 100, 10);
+  const handleDrawButtonClick = () => {
+    setDrawingEnabled(true);
+    setEraseMode(false);
+  };
+
+  const handleEraseButtonClick = () => {
+    setDrawingEnabled(false);
+    setEraseMode(true);
   };
 
   const onDocumentLoadSuccess = ({ numPages }) => {
@@ -35,20 +38,25 @@ const Main = () => {
 
   return (
     <div className="pdf-viewer">
-      {/* TODO: Add buttons to Toolbar (found in Toolbar.js) */}
-      <div className="Toolbar-container"><Toolbar /></div>
-      <Canvas width={canvasSize.width} height={canvasSize.height} />
+      <div className="Toolbar-container">
+        <Toolbar
+          onDrawButtonClick={handleDrawButtonClick}
+          onEraseButtonClick={handleEraseButtonClick}
+        />
+      </div>
+      <Canvas
+        width={canvasSize.width}
+        height={canvasSize.height}
+        drawingEnabled={drawingEnabled}
+        eraseMode={eraseMode}
+      />
       <div className="pdf-container">
-        {/* TODO: Create an input button for the PDF */}
-        {/* TODO: make the width variable */}
         <Document
           file="/data/the second waltz/thesecondwaltz.pdf"
           onLoadSuccess={onDocumentLoadSuccess}>
-          <Page pageNumber={pageNumber} width={1024}/>
-          {/* <Page pageNumber={pageNumber} width={window.innerWidth}/> */}
+          <Page pageNumber={pageNumber} width={1024} />
         </Document>
       </div>
-      {/* TODO: Need to disable flipping pages somehow when adding notes */}
       <div className="pagenav">
         {pageNumber > 1 && (
           <div className="overlay left">

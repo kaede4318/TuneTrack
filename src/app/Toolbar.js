@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import './App.css';
 import Link from 'next/link';
-import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMusic, faPen, faHome, faBook } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
@@ -8,7 +8,7 @@ import Practice from './practice';
 
 // Set the app element for accessibility
 if (typeof document !== 'undefined') {
-  Modal.setAppElement('#__next'); // Adjust if your root element ID is different
+  Modal.setAppElement('#__next');
 }
 
 export default function Toolbar() {
@@ -17,10 +17,11 @@ export default function Toolbar() {
     const [isDisabled, setDisabled] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [suggestions, setSuggestions] = useState(null);
-    const [isLoading, setIsLoading] = useState(false); // New state for loading status
+    const [isLoading, setIsLoading] = useState(false);
+    const [activeButton, setActiveButton] = useState(null); 
 
     const PitchFeedback = () => {
-        const btn = document.getElementById("pitch-feedback-button")
+        const btn = document.getElementById("pitch-feedback-button");
         if (btn.classList.contains("enabled")) {
             btn.classList.remove("enabled")
             setPitchFeedbackEnabled(false)
@@ -40,6 +41,17 @@ export default function Toolbar() {
     const setMode = () => {
         setAnnotateMode(prev => !prev);
         setDisabled(prev => !prev);
+        setActiveButton(null);
+    };
+
+    const handleDrawClick = () => {
+        onDrawButtonClick();
+        setActiveButton('draw');
+    };
+
+    const handleEraseClick = () => {
+        onEraseButtonClick();
+        setActiveButton('erase');
     };
 
     const fetchSuggestions = async () => {
@@ -54,10 +66,9 @@ export default function Toolbar() {
                 },
                 body: JSON.stringify({
                     "title": "The Second Waltz",
-                    "subtitle": "from Jazz Suite",
-                    "artist": "Dimitri Shostakovich",
-                    "bpm": "162",
-                    "instrument": "flute",
+                    "composer": "Dmitri Shostakovich",
+                    "tempo_bpm": "162",
+                    "instrument": "Flute",
                 }),
             }
         ).then(response => response.text());
@@ -76,7 +87,7 @@ export default function Toolbar() {
         <div className={`toolbar ${annotateMode ? 'annotate-mode' : 'play-mode'}`}>
             <div className="home-button-container">
                 <Link href="/Home">
-                    <button id="home-button" role="button">
+                    <button id="home-button" title="Home" role="button">
                         <FontAwesomeIcon icon={faHome} />
                     </button>
                 </Link>
@@ -84,7 +95,7 @@ export default function Toolbar() {
             <div className="gallery-button-container">
                 <Link href="/Gallery" legacyBehavior>
                     <a>
-                        <button id="galleryButton">
+                        <button id="galleryButton" title="Gallery">
                             <FontAwesomeIcon icon={faBook} />
                         </button>
                     </a>
@@ -115,11 +126,23 @@ export default function Toolbar() {
                     </button>
                 </div>
                 <div className="mode-action-button">
-                    {annotateMode ? (
-                        <button onClick={handleClick}>
-                            Draw
-                        </button>
-                    ) : (
+                    {annotateMode && (
+                        <>
+                            <button
+                                onClick={handleDrawClick}
+                                className={activeButton === 'draw' ? 'active' : ''}
+                            >
+                                Draw
+                            </button>
+                            <button
+                                onClick={handleEraseClick}
+                                className={activeButton === 'erase' ? 'active' : ''}
+                            >
+                                Erase
+                            </button>
+                        </>
+                    )}
+                    {!annotateMode && (
                         <button onClick={handleClick}>
                             Play
                         </button>
