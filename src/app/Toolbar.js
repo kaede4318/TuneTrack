@@ -12,6 +12,7 @@ if (typeof document !== 'undefined') {
 }
 
 export default function Toolbar() {
+    const [pitchFeedbackEnabled, setPitchFeedbackEnabled] = useState(false)
     const [annotateMode, setAnnotateMode] = useState(true);
     const [isDisabled, setDisabled] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,8 +23,12 @@ export default function Toolbar() {
         const btn = document.getElementById("pitch-feedback-button")
         if (btn.classList.contains("enabled")) {
             btn.classList.remove("enabled")
+            setPitchFeedbackEnabled(false)
+            console.log(pitchFeedbackEnabled)
         } else {
             btn.classList.add("enabled")
+            setPitchFeedbackEnabled(true)
+            console.log(pitchFeedbackEnabled)
             Practice();
         }
     };
@@ -124,7 +129,7 @@ export default function Toolbar() {
                     <button id="pitch-feedback-button" onClick={PitchFeedback}>
                         Pitch Feedback
                     </button>
-                    <div id="note"></div>
+                    { pitchFeedbackEnabled ? <div id="note"></div> : null}
                 </div>) : null}
                 <div className="suggestion-button-container">
                     <button onClick={fetchSuggestions}>

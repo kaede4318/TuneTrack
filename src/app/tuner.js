@@ -37,7 +37,7 @@ export default function init() {
       var constraints = {audio: true};
       navigator.mediaDevices.getUserMedia(constraints)
       .then((stream) => {
-        // Initialize the SourceNode
+          // Initialize the SourceNode
           source = audioContext.createMediaStreamSource(stream);
           // Connect the source node to the analyzer
           source.connect(analyser);
@@ -110,6 +110,14 @@ export default function init() {
       }
   
       var drawNote = function() {
+        const btn = document.getElementById("pitch-feedback-button")
+        if (audioContext.state != "closed") {
+          if (!btn.classList.contains("enabled")) {
+            console.log("stop recording")
+            audioContext.close();
+            return;
+          }
+        }
         drawNoteVisual = requestAnimationFrame(drawNote);
         var bufferLength = analyser.fftSize;
         var buffer = new Float32Array(bufferLength);
@@ -171,9 +179,7 @@ export default function init() {
         if (typeof(valueToDisplay) == 'number') {
           valueToDisplay += ' Hz';
         }
-  
         document.getElementById('note').innerText = valueToDisplay;
-        
       }
   
       var drawFrequency = function() {
