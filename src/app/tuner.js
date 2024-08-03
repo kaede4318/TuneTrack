@@ -104,6 +104,24 @@ export default function init() {
   
       // Thanks to PitchDetect: https://github.com/cwilso/PitchDetect/blob/master/js/pitchdetect.js
       var noteStrings = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+      const lineSpacing = 50; // placeholder, not implemented yet
+      const startLine = [400, 200] // placeholder, not implemented yet
+      const x = 0 // placeholder, not implemented yet
+      const y = 0 // placeholder, not implemented yet
+      var noteMap = new Map([
+        ["C", [x, y]],
+        ["C#", [x, y]],
+        ["D", [x, y]],
+        ["D#", [x, y]],
+        ["E", [x, y]],
+        ["F", [x, y]],
+        ["F#", [x, y]],
+        ["G", [x, y]],
+        ["G#", [x, y]],
+        ["A", [x, y]],
+        ["A#", [x, y]],
+        ["B", [x, y]],
+      ]);
       function noteFromPitch( frequency ) {
         var noteNum = 12 * (Math.log( frequency / 440 )/Math.log(2) );
         return Math.round( noteNum ) + 69;
