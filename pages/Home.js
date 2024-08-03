@@ -79,6 +79,15 @@ const Home = () => {
   return (
     <div className="home-container">
       <h1 className="app-name">TuneTrack</h1>
+      {pngDataUrl && (
+        <div className="image-container">
+          <img src={pngDataUrl} alt="Converted PDF Preview" />
+        </div>
+      )}
+      {/* Adding the static image */}
+      <div className="static-image-container">
+        <img src="/music.png" alt="Music" className="static-image" />
+      </div>
       <div className="upload-container">
         <button onClick={handleButtonClick} className="custom-file-upload">
           Upload Sheet Music
@@ -92,7 +101,7 @@ const Home = () => {
           onChange={handleFileChange}
         />
       </div>
-      <button onClick={viewPDF}>View PDF</button>
+      <button id='previewButton' onClick={viewPDF}>View Uploaded Sheet Music</button>
       <Link href="/Gallery" legacyBehavior>
         <a>
           <button id="galleryNavButton">

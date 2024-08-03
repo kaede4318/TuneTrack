@@ -8,7 +8,7 @@ import Practice from './practice';
 
 // Set the app element for accessibility
 if (typeof document !== 'undefined') {
-  Modal.setAppElement('#__next'); // Adjust if your root element ID is different
+  Modal.setAppElement('#__next');
 }
 
 export default function Toolbar() {
@@ -16,7 +16,7 @@ export default function Toolbar() {
     const [isDisabled, setDisabled] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [suggestions, setSuggestions] = useState(null);
-    const [isLoading, setIsLoading] = useState(false); // New state for loading status
+    const [isLoading, setIsLoading] = useState(false);
 
     const PitchFeedback = () => {
         const btn = document.getElementById("pitch-feedback-button")
@@ -49,10 +49,9 @@ export default function Toolbar() {
                 },
                 body: JSON.stringify({
                     "title": "The Second Waltz",
-                    "subtitle": "from Jazz Suite",
-                    "artist": "Dimitri Shostakovich",
-                    "bpm": "162",
-                    "instrument": "flute",
+                    "composer": "Dmitri Shostakovich",
+                    "tempo_bpm": "162",
+                    "instrument": "Flute",
                 }),
             }
         ).then(response => response.text());
@@ -71,7 +70,7 @@ export default function Toolbar() {
         <div className={`toolbar ${annotateMode ? 'annotate-mode' : 'play-mode'}`}>
             <div className="home-button-container">
                 <Link href="/Home">
-                    <button id="home-button" role="button">
+                    <button id="home-button" title="Home" role="button">
                         <FontAwesomeIcon icon={faHome} />
                     </button>
                 </Link>
@@ -79,7 +78,7 @@ export default function Toolbar() {
             <div className="gallery-button-container">
                 <Link href="/Gallery" legacyBehavior>
                     <a>
-                        <button id="galleryButton">
+                        <button id="galleryButton" title="Gallery">
                             <FontAwesomeIcon icon={faBook} />
                         </button>
                     </a>
