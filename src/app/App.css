@@ -56,6 +56,7 @@ button:hover {
 
 .overlay {
   position: absolute;
+  padding-top: 650px;
   height: 50px;
   color: black;
   display: flex;

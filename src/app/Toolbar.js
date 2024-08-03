@@ -11,12 +11,13 @@ if (typeof document !== 'undefined') {
   Modal.setAppElement('#__next');
 }
 
-export default function Toolbar({ onDrawButtonClick }) { // Pass onDrawButtonClick as a prop
+export default function Toolbar({ onDrawButtonClick, onEraseButtonClick }) {
     const [annotateMode, setAnnotateMode] = useState(true);
     const [isDisabled, setDisabled] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [suggestions, setSuggestions] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [activeButton, setActiveButton] = useState(null); 
 
     const PitchFeedback = () => {
         const btn = document.getElementById("pitch-feedback-button");
@@ -35,6 +36,17 @@ export default function Toolbar({ onDrawButtonClick }) { // Pass onDrawButtonCli
     const setMode = () => {
         setAnnotateMode(prev => !prev);
         setDisabled(prev => !prev);
+        setActiveButton(null);
+    };
+
+    const handleDrawClick = () => {
+        onDrawButtonClick();
+        setActiveButton('draw');
+    };
+
+    const handleEraseClick = () => {
+        onEraseButtonClick();
+        setActiveButton('erase');
     };
 
     const fetchSuggestions = async () => {
@@ -109,22 +121,36 @@ export default function Toolbar({ onDrawButtonClick }) { // Pass onDrawButtonCli
                     </button>
                 </div>
                 <div className="mode-action-button">
-                    {annotateMode ? (
-                        <button onClick={onDrawButtonClick}> {/* Call the passed prop function */}
-                            Draw
-                        </button>
-                    ) : (
+                    {annotateMode && (
+                        <>
+                            <button
+                                onClick={handleDrawClick}
+                                className={activeButton === 'draw' ? 'active' : ''}
+                            >
+                                Draw
+                            </button>
+                            <button
+                                onClick={handleEraseClick}
+                                className={activeButton === 'erase' ? 'active' : ''}
+                            >
+                                Erase
+                            </button>
+                        </>
+                    )}
+                    {!annotateMode && (
                         <button onClick={handleClick}>
                             Play
                         </button>
                     )}
                 </div>
-                {!annotateMode ? (<div className="pitch-feedback">
-                    <button id="pitch-feedback-button" onClick={PitchFeedback}>
-                        Pitch Feedback
-                    </button>
-                    <div id="note"></div>
-                </div>) : null}
+                {!annotateMode ? (
+                    <div className="pitch-feedback">
+                        <button id="pitch-feedback-button" onClick={PitchFeedback}>
+                            Pitch Feedback
+                        </button>
+                        <div id="note"></div>
+                    </div>
+                ) : null}
                 <div className="suggestion-button-container">
                     <button onClick={fetchSuggestions}>
                         {isLoading ? 'Loading...' : 'Suggestion'}

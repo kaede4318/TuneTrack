@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useEffect } from 'react';
 
-const Canvas = ({ width, height, drawingEnabled }) => {
+const Canvas = ({ width, height, drawingEnabled, eraseMode }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -10,27 +10,39 @@ const Canvas = ({ width, height, drawingEnabled }) => {
     let drawing = false;
 
     const startDrawing = (e) => {
-      if (!drawingEnabled) return; // Exit if drawing is not enabled
+      if (!drawingEnabled && !eraseMode) return;
       drawing = true;
       draw(e);
     };
 
     const endDrawing = () => {
-      if (!drawingEnabled) return; // Exit if drawing is not enabled
+      if (!drawingEnabled && !eraseMode) return;
       drawing = false;
       context.beginPath();
     };
 
     const draw = (e) => {
-      if (!drawing || !drawingEnabled) return; // Exit if not drawing or drawing is disabled
+      if (!drawing) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
       context.lineWidth = 4;
       context.lineCap = 'round';
-      context.strokeStyle = 'red';
 
-      context.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+      if (eraseMode) {
+        context.globalCompositeOperation = 'destination-out'; // Set to erase mode
+        context.lineWidth = 10; // Larger line width for erasing
+      } else {
+        context.globalCompositeOperation = 'source-over'; // Set to drawing mode
+        context.strokeStyle = 'red';
+      }
+
+      context.lineTo(x, y);
       context.stroke();
       context.beginPath();
-      context.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+      context.moveTo(x, y);
     };
 
     canvas.addEventListener('mousedown', startDrawing);
@@ -42,7 +54,7 @@ const Canvas = ({ width, height, drawingEnabled }) => {
       canvas.removeEventListener('mouseup', endDrawing);
       canvas.removeEventListener('mousemove', draw);
     };
-  }, [drawingEnabled]); // Add drawingEnabled to dependencies
+  }, [drawingEnabled, eraseMode]); // Update effect when drawingEnabled or eraseMode changes
 
   return <canvas ref={canvasRef} width={width} height={height} style={{ position: 'relative', top: 0, zIndex: 1 }} />;
 };
