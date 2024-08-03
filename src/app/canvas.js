@@ -33,7 +33,7 @@ const Canvas = ({ width, height, drawingEnabled, eraseMode }) => {
 
       if (eraseMode) {
         context.globalCompositeOperation = 'destination-out';
-        context.lineWidth = 30;
+        context.lineWidth = 25;
       } else {
         context.globalCompositeOperation = 'source-over';
         context.strokeStyle = 'rgb(54, 100, 158)';
