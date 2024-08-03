@@ -11,7 +11,7 @@ if (typeof document !== 'undefined') {
   Modal.setAppElement('#__next');
 }
 
-export default function Toolbar() {
+export default function Toolbar({ onDrawButtonClick, onEraseButtonClick }) {
     const [pitchFeedbackEnabled, setPitchFeedbackEnabled] = useState(false)
     const [annotateMode, setAnnotateMode] = useState(true);
     const [isDisabled, setDisabled] = useState(true);

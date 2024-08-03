@@ -15,6 +15,7 @@ const Main = () => {
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
   const [drawingEnabled, setDrawingEnabled] = useState(false);
   const [eraseMode, setEraseMode] = useState(false);
+  
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
