@@ -20,7 +20,7 @@ const Home = () => {
       const fileURL = URL.createObjectURL(selectedFile);
       window.open(fileURL);
     } else {
-      alert("No file selected!");
+      alert("No file uploaded! Please upload a pdf first.");
     }
   };
 
