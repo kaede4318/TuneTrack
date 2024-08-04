@@ -10,7 +10,6 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.j
 const Home = () => {
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [pngDataUrl, setPngDataUrl] = useState(null);
 
   // Opens the inputted pdf in another tab
   // We don't really need this but its nice to display the pdf back 
@@ -46,7 +45,6 @@ const Home = () => {
     await page.render(renderContext).promise;
 
     const croppedDataUrl = canvas.toDataURL('image/png');
-    setPngDataUrl(croppedDataUrl);
 
     // Send the cropped png to noggin
     const response = await fetch(
@@ -58,7 +56,7 @@ const Home = () => {
           Authorization: 'Bearer rg_v1_01k22lhb4e9ej5advf89jmpbrnz4k1wg6hgr_ngk',
         },
         body: JSON.stringify({
-          "picture": pngDataUrl,
+          "picture": croppedDataUrl,
         }),
       }
     ).then(response => response.text());
