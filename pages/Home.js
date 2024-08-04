@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import {convertToBPM} from '../src/app/utils';
 import Link from 'next/link';
 import fetch from 'node-fetch';
 import '../src/app/App.css';
@@ -23,7 +24,7 @@ const Home = () => {
     }
   };
 
-  const convertPdfToPng = async (file) => {
+  const sendPdfToNoggin = async (file) => {
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
     const page = await pdf.getPage(1);
@@ -61,7 +62,8 @@ const Home = () => {
       }
     ).then(response => response.text());
 
-    console.log(response);
+    const pdfData = convertToBPM(response)
+    console.log(pdfData);
   };
 
   const handleButtonClick = () => {
@@ -71,7 +73,7 @@ const Home = () => {
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
-    await convertPdfToPng(file);
+    await sendPdfToNoggin(file);
   };
 
   return (
@@ -90,7 +92,7 @@ const Home = () => {
           onChange={handleFileChange}
         />
       </div>
-      <button id='previewButton' onClick={viewPDF}>View Uploaded Sheet Music</button>
+      <button id='previewButton' onClick={viewPDF}>Preview File Upload (Opens in New Tab)</button>
       <Link href="/Gallery" legacyBehavior>
         <a>
           <button id="galleryNavButton">
