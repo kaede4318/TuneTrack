@@ -56,7 +56,6 @@ button:hover {
 
 .overlay {
   position: absolute;
-  padding-top: 650px;
   height: 50px;
   color: black;
   display: flex;
@@ -113,10 +112,24 @@ button:hover {
 }
 
 .mode-buttons-container {
+  height: inherit;
   flex: 1 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 2;
+}
+
+.toolbar-dropdown {
+  font-family: inherit;
+  position: absolute;
+  z-index: 1;
+  background: #bac8e0;
+  border-radius: 0px 0px 5px 5px;
+  padding: 10px;
+  margin: 0px 0px 5px 5px;
+  top: 65px;
+  width: inherit;
 }
 
 .suggestion-button-containter {
@@ -212,6 +225,10 @@ input[type="file"] {
 
 .pagenav {
   display: block;
+  position: fixed;
+  top: 1325px;
+  height: 50px;
+  width: 1024px;
 }
 
 .gallery {
@@ -323,4 +340,13 @@ input[type="file"] {
 
 .nav-button {
   font-weight: normal;
+}
+
+#countdown {
+  position: absolute;
+  left: 100px;
+  top: 200px;
+  font-size: 30px;
+  z-index: 3;
+  color:rgb(89, 89, 89)
 }

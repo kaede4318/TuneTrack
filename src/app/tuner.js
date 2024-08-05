@@ -22,7 +22,9 @@ with the above license.
 
 */
 
-export default function init() {
+export default function init(bpm, measures) {
+    var measures = measures
+    var bpm = bpm
     var source;
     var audioContext = new (window.AudioContext || window.webkitAudioContext)();
     var analyser = audioContext.createAnalyser();
@@ -49,85 +51,171 @@ export default function init() {
     }
   
     // Visualizing, copied from voice change o matic
-    // var canvas = document.querySelector('.visualizer');
-    // var canvasContext = canvas.getContext("2d");
-    // var WIDTH;
-    // var HEIGHT;
+    var canvas = document.querySelector('.visualizer');
+    var context = canvas.getContext("2d");
+    var WIDTH;
+    var HEIGHT;
+    const PAGE1_X = 125;
+    const PAGE1_Y = 355;
+    const PAGE2_X = 110;
+    const PAGE2_Y = 180;
+    var xPos = PAGE1_X;
+    var yPos = PAGE1_Y;
   
     function visualize() {
-      // WIDTH = canvas.width;
-      // HEIGHT = canvas.height;
-  
-      var drawVisual;
-      var drawNoteVisual;
-  
-      var draw = function() {
-        drawVisual = requestAnimationFrame(draw);
-        analyser.fftSize = 2048;
-        var bufferLength = analyser.fftSize;
-        var dataArray = new Uint8Array(bufferLength);
-        analyser.getByteTimeDomainData(dataArray);
-  
-        // canvasContext.fillStyle = 'rgb(200, 200, 200)';
-        // canvasContext.fillRect(0, 0, WIDTH, HEIGHT);
-  
-        // canvasContext.lineWidth = 2;
-        // canvasContext.strokeStyle = 'rgb(0, 0, 0)';
-  
-        // canvasContext.beginPath();
-  
-        var sliceWidth = WIDTH * 1.0 / bufferLength;
-        var x = 0;
-  
-        for(var i = 0; i < bufferLength; i++) {
-  
-          var v = dataArray[i] / 128.0;
-          var y = v * HEIGHT/2;
-  
-          // if(i === 0) {
-          //   canvasContext.moveTo(x, y);
-          // } else {
-          //   canvasContext.lineTo(x, y);
-          // }
-  
-          x += sliceWidth;
+      context.lineWidth = 2;
+      WIDTH = canvas.width;
+      HEIGHT = canvas.height;
+
+       // Thanks to PitchDetect: https://github.com/cwilso/PitchDetect/blob/master/js/pitchdetect.js
+       var noteStrings = ["C 1", "C# 1", "D 1", "D# 1", "E 1", "F 1", "F# 1", "G 1", "G# 1", "A 1", "A# 1", "B 1", "C 2", "C# 2", "D 2", "D# 2", "E 2", "F 2", "F# 2", "G 2", "G# 2", "A 2", "A# 2", "B 2", "C 3", "C# 3", "D 3", "D# 3", "E 3", "F 3", "F# 3", "G 3", "G# 3", "A 3", "A# 3", "B 3", "C 4", "C# 4", "D 4", "D# 4", "E 4", "F 4", "F# 4", "G 4", "G# 4", "A 4", "A# 4", "B 4"];
+       var yOffset = 0
+       const offset = 2
+       var noteMap = new Map([
+         ["C 1", -offset*29],
+         ["C# 1", -offset*28],
+         ["D 1", -offset*27],
+         ["D# 1", -offset*26],
+         ["E 1", -offset*25],
+         ["F 1", -offset*24],
+         ["F# 1", -offset*23],
+         ["G 1", -offset*21],
+         ["G# 1", -offset*20],
+         ["A 1", -offset*19],
+         ["A# 1", -offset*18],
+         ["B 1", -offset*17],
+         ["C 2", -offset*15],
+         ["C# 2", -offset*14],
+         ["D 2", -offset*13],
+         ["D# 2", -offset*12],
+         ["E 2", -offset*11],
+         ["F 2", -offset*9],
+         ["F# 2", -offset*8],
+         ["G 2", -offset*7],
+         ["G# 2", -offset*6],
+         ["A 2", -offset*5],
+         ["A# 2", -offset*4],
+         ["B 2", -offset*3],
+         ["C 3", 0],
+         ["C# 3", offset*2],
+         ["D 3", offset*3],
+         ["D# 3", offset*4],
+         ["E 3", offset*5],
+         ["F 3", offset*7],
+         ["F# 3", offset*8],
+         ["G 3", offset*9],
+         ["G# 3", offset*10],
+         ["A 3", offset*11],
+         ["A# 3", offset*12],
+         ["B 3", offset*13],
+         ["C 4", offset*15],
+         ["C# 4", offset*16],
+         ["D 4", offset*17],
+         ["D# 4", offset*18],
+         ["E 4", offset*19],
+         ["F 4", offset*21],
+         ["F# 4", offset*22],
+         ["G 4", offset*23],
+         ["G# 4", offset*24],
+         ["A 4", offset*25],
+         ["A# 4", offset*26],
+         ["B 4", offset*27],
+         ["Too quiet...", 0],
+       ]);
+
+      var drawNote
+      var drawNoteVisual
+
+      var lineSpacing = 108
+      const framesPerSecond = 60;
+      const secondsPerBeat = 60 / bpm;
+      const pixelsPerBeat = WIDTH / (framesPerSecond * secondsPerBeat);
+
+      const framesPerBeat = framesPerSecond * (60 / bpm)
+      const framesPerMeasure = framesPerBeat * 3
+      const secondsPerMeasure = secondsPerBeat * 3
+
+      var frameCounter = 0
+      var measureCounter = 0
+      var pixelCounter = 0
+
+      // calculate pixels per second for first measure
+      var pixelsPerSecond = measures[0][1] / secondsPerMeasure
+      var pixelsPerFrame = measures[0][1] / framesPerMeasure
+      var pixelsToMove = 0
+      var measurePos = 0
+
+      // var colors = ['rgb(255, 0, 0)', 'rgb(0, 255, 0)', 'rgb(0, 0, 255)']
+      const pitchColor = 'rgb(255, 89, 89)'
+      const inactivePitchColor = 'rgb(255, 120, 120)'
+      context.strokeStyle = pitchColor
+      const draw = () => {
+
+        console.log(note)
+        const btn = document.getElementById("pitch-feedback-button")
+        if (audioContext.state != "closed") {
+          if (!btn.classList.contains("enabled")) {
+            console.log("stop recording")
+            return;
+          } else {
+            note = document.getElementById('note').innerText
+          }
         }
-  
-        // canvasContext.lineTo(canvas.width, canvas.height/2);
-        // canvasContext.stroke();
-      }
+        if (pixelsPerFrame) {
+          pixelsToMove = pixelsPerFrame
+          pixelsToMove = Math.round(pixelsToMove)
+        }
+
+        context.beginPath();
+        context.moveTo(xPos, yPos - noteMap.get(note) + yOffset);
+        context.lineTo(xPos + pixelsToMove,  yPos - noteMap.get(note) + yOffset);
+        context.stroke();
+
+        xPos += pixelsToMove;
+        measurePos += pixelsToMove
+
+        if (measurePos >= measures[measureCounter][1]) {
+          measureCounter += 1
+          if (measureCounter >= measures.length) {
+            return;
+          }
+          if (!measures[measureCounter][1]) {
+            console.log("newpage")
+            context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            xPos = PAGE2_X;
+            yPos = PAGE2_Y;
+            yOffset = 0;
+            lineSpacing = 160;
+            measureCounter += 1
+            next = document.getElementById("next-btn")
+            console.log(next)
+            next.click()
+          }  
+          pixelsPerFrame = measures[measureCounter][1] / framesPerMeasure
+          measurePos = 0
+        }
+        if (xPos >= (WIDTH - 48)) {
+          console.log("if")
+          console.log(measureCounter)
+          xPos = 110; // Reset position when it goes off-screen
+          yOffset += lineSpacing
+        }
+        console.log("requestframe")
+        requestAnimationFrame(draw); // Continue animation
+      };
   
       var previousValueToDisplay = 0;
       var smoothingCount = 0;
       var smoothingThreshold = 5;
       var smoothingCountThreshold = 5;
   
-      // Thanks to PitchDetect: https://github.com/cwilso/PitchDetect/blob/master/js/pitchdetect.js
-      var noteStrings = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-      const lineSpacing = 50; // placeholder, not implemented yet
-      const startLine = [400, 200] // placeholder, not implemented yet
-      const x = 0 // placeholder, not implemented yet
-      const y = 0 // placeholder, not implemented yet
-      var noteMap = new Map([
-        ["C", [x, y]],
-        ["C#", [x, y]],
-        ["D", [x, y]],
-        ["D#", [x, y]],
-        ["E", [x, y]],
-        ["F", [x, y]],
-        ["F#", [x, y]],
-        ["G", [x, y]],
-        ["G#", [x, y]],
-        ["A", [x, y]],
-        ["A#", [x, y]],
-        ["B", [x, y]],
-      ]);
       function noteFromPitch( frequency ) {
         var noteNum = 12 * (Math.log( frequency / 440 )/Math.log(2) );
         return Math.round( noteNum ) + 69;
       }
   
       var drawNote = function() {
+
         const btn = document.getElementById("pitch-feedback-button")
         if (audioContext.state != "closed") {
           if (!btn.classList.contains("enabled")) {
@@ -152,7 +240,7 @@ export default function init() {
         } else {
           // Get the closest note
           // Thanks to PitchDetect:
-          valueToDisplay = noteStrings[noteFromPitch(autoCorrelateValue) % 12];
+          valueToDisplay = noteStrings[noteFromPitch(autoCorrelateValue) % 48];
         }
   
         var smoothingValue = 'basic'
@@ -221,8 +309,8 @@ export default function init() {
           for(var i = 0; i < bufferLengthAlt; i++) {
             barHeight = dataArrayAlt[i];
   
-            canvasContext.fillStyle = 'rgb(' + (barHeight+100) + ',50,50)';
-            canvasContext.fillRect(x,HEIGHT-barHeight/2,barWidth,barHeight/2);
+            // canvasContext.fillStyle = 'rgb(' + (barHeight+100) + ',50,50)';
+            // canvasContext.fillRect(x,HEIGHT-barHeight/2,barWidth,barHeight/2);
   
             x += barWidth + 1;
           }
@@ -231,14 +319,8 @@ export default function init() {
         console.log('wut')
         drawAlt();
       }
-  
-      // var displayValue = document.querySelector('input[name="display"]:checked').value
-      // if (displayValue == 'sine') {
-      //   draw();
-      // } else {
-      //   drawFrequency();
-      // }
       drawNote();
+      draw();
     }
   }
   

@@ -1,29 +1,36 @@
 "use client";
 import init from './tuner';
-import songinfo from './songinfo'
-import React, { useRef, useEffect, useState } from 'react';
 
 export default function Practice() {
-    countdown();
-    const bpm = songinfo.BPM
-    console.log(bpm)
-    init();
+    var bpm = 120 // placeholder
+    var measures = [] // nothing here yet
+    const fetchData = async () => { 
+        try {
+            const response = await fetch('/songinfo.json'); 
+            const data = await response.json();
+            console.log(data);
+            bpm = data.songs[0].bpm; // fetch bpm from json
+            measures = data.songs[0].measures
+            await runIn(5, bpm, measures)
+        } catch (error) {
+            console.error('Error fetching JSON:', error);
+        }
+    };
+    const runIn = async (s, bpm, measures) => { 
+        try {
+            const sleep = ms => new Promise(r => setTimeout(r, ms));
+            const countdown = document.getElementById("countdown")
+            for (let i = s; i >= 0; i--) {
+                countdown.innerText = i.toString();
+                await sleep(1000);
+                console.log(s)
+            }
+            countdown.innerText = "";
+            init(bpm, measures);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+    fetchData();
     return;
 }
-
-const PitchFeedback = ({ width, height, noteMap, lineSpacing, startLine }) => {
-  const canvasRef = useRef(null);
-
-  useEffect(() => {
-    }); 
-
-    
-
-return <canvas ref={canvasRef} width={width} height={height} style={{ position: 'relative', top: 0, zIndex: 1 }} />;
-};
-
-async function countdown() {
-    const sleep = ms => new Promise(r => setTimeout(r, ms));
-    await sleep(5000);
-}
-

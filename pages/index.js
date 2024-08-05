@@ -4,6 +4,7 @@ import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import '../src/app/App.css';
 import Toolbar from '../src/app/Toolbar';
 import Canvas from '../src/app/canvas';
+import Tuner from '../src/app/tuner';
 import { GlobalWorkerOptions } from 'pdfjs-dist';
 
 // Provide PDF.js worker
@@ -51,6 +52,15 @@ const Main = () => {
           onClearButtonClick={handleClearButtonClick}
         />
       </div>
+      {!drawingEnabled && !eraseMode && (<canvas 
+        width={1024}
+        height={1366}
+        className="visualizer"
+        style={{position: 'absolute', top: 0, zIndex: 2}}
+      />)}
+      {!drawingEnabled && !eraseMode && (<div 
+        id="countdown"
+      />)}
       <Canvas
         width={canvasSize.width}
         height={canvasSize.height}
@@ -68,7 +78,7 @@ const Main = () => {
       <div className="pagenav">
         {pageNumber > 1 && (
           <div className="overlay left">
-            <button className="nav-button" onClick={() => setPageNumber(pageNumber - 1)}>
+            <button id="prev-btn" className="nav-button" onClick={() => setPageNumber(pageNumber - 1)}>
               Prev Page
             </button>
           </div>
@@ -78,7 +88,7 @@ const Main = () => {
         </div>
         {pageNumber < numPages && (
           <div className="overlay right">
-            <button className="nav-button" onClick={() => setPageNumber(pageNumber + 1)}>
+            <button id="next-btn" className="nav-button" onClick={() => setPageNumber(pageNumber + 1)}>
               Next Page
             </button>
           </div>

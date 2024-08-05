@@ -161,9 +161,14 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
                 {!annotateMode ? (
                     <div className="pitch-feedback">
                         <button id="pitch-feedback-button" onClick={PitchFeedback}>
-                            Pitch Feedback
+                            Pitch Feedback 
                         </button>
-                        { pitchFeedbackEnabled ? <div id="note"></div> : null}
+                        { pitchFeedbackEnabled ? 
+                        <div 
+                        id="note"
+                        className="toolbar-dropdown"
+                        ></div> 
+                        : null}
                     </div>
                 ) : null}
                 <div className="suggestion-button-container">
