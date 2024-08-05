@@ -25,6 +25,9 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
         if (btn.classList.contains("enabled")) {
             btn.classList.remove("enabled");
             setPitchFeedbackEnabled(false);
+            
+            var note = document.getElementById("note")
+            note.style.opacity = 0;
         } else {
             btn.classList.add("enabled");
             setPitchFeedbackEnabled(true);
@@ -158,13 +161,7 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
                         <>
                             <button onClick={handleClick}>
                                 Play
-                            </button>
-                            <div className="pitch-feedback">
-                                <button id="pitch-feedback-button" onClick={PitchFeedback}>
-                                    Pitch Feedback
-                                </button>
-                                { pitchFeedbackEnabled ? <div id="note"></div> : null}
-                            </div>                        
+                            </button>               
                         </>
                     )}
                 </div>

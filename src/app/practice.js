@@ -25,8 +25,9 @@ export default function Practice() {
                 await sleep(1000);
                 console.log(s)
             }
-            countdown.innerText = "";
+            countdown.innerText = ""
             init(bpm, measures);
+            note.style.opacity = 1;
         } catch (error) {
             console.error('Error:', error);
         }

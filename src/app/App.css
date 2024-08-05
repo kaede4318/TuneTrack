@@ -350,3 +350,6 @@ input[type="file"] {
   z-index: 3;
   color:rgb(89, 89, 89)
 }
+#note {
+  opacity: 0;
+}
