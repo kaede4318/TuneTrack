@@ -1,7 +1,6 @@
-"use client";
 import React, { useRef, useEffect } from 'react';
 
-const Canvas = ({ width, height, drawingEnabled, eraseMode, clearCanvas }) => {
+const Canvas = ({ width, height, drawingEnabled, eraseMode, clearCanvas, saveCanvasState, loadCanvasState }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -32,10 +31,10 @@ const Canvas = ({ width, height, drawingEnabled, eraseMode, clearCanvas }) => {
       context.lineCap = 'round';
 
       if (eraseMode) {
-        context.globalCompositeOperation = 'destination-out'; // Erase mode
+        context.globalCompositeOperation = 'destination-out';//erase
         context.lineWidth = 30;
       } else {
-        context.globalCompositeOperation = 'source-over'; // Drawing mode
+        context.globalCompositeOperation = 'source-over';//draw
         context.strokeStyle = 'rgb(54, 100, 158)';
       }
 
@@ -46,14 +45,14 @@ const Canvas = ({ width, height, drawingEnabled, eraseMode, clearCanvas }) => {
     };
 
     const handleClearCanvas = () => {
-      if (clearCanvas) {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-      }
+      context.clearRect(0, 0, canvas.width, canvas.height);
     };
 
     if (clearCanvas) {
       handleClearCanvas();
     }
+
+    loadCanvasState(canvas);
 
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mouseup', endDrawing);
@@ -63,8 +62,9 @@ const Canvas = ({ width, height, drawingEnabled, eraseMode, clearCanvas }) => {
       canvas.removeEventListener('mousedown', startDrawing);
       canvas.removeEventListener('mouseup', endDrawing);
       canvas.removeEventListener('mousemove', draw);
+      saveCanvasState(canvas);
     };
-  }, [drawingEnabled, eraseMode, clearCanvas]);
+  }, [drawingEnabled, eraseMode, clearCanvas, loadCanvasState, saveCanvasState]);
 
   return <canvas ref={canvasRef} width={width} height={height} style={{ position: 'relative', top: 0, zIndex: 1 }} />;
 };

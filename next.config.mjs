@@ -6,7 +6,7 @@ const nextConfig = {
             type: 'asset/source'
         })
         config.resolve.alias.canvas = false;
-    return config;
+        return config;
     },
 };
 

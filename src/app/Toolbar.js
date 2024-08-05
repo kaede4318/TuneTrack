@@ -130,6 +130,7 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
                     </button>
                 </div>
                 <div className="mode-action-button">
+                    {/* Renders only when annotate mode is on. */}
                     {annotateMode && (
                         <>
                             <button
@@ -137,25 +138,34 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
                                 className={activeButton === 'draw' ? 'active' : ''}
                             >
                                 Draw
-                            </button>
+                            </button>,
                             <button
                                 onClick={handleEraseClick}
                                 className={activeButton === 'erase' ? 'active' : ''}
                             >
                                 Erase
-                            </button>
+                            </button>,
                             <button
                                 onClick={handleClearClick}
                                 className="clear-button"
                             >
                                 Clear
-                            </button>
+                            </button>                        
                         </>
                     )}
+                    {/* Renders only when practice mode is on. */}
                     {!annotateMode && (
-                        <button onClick={handleClick}>
-                            Play
-                        </button>
+                        <>
+                            <button onClick={handleClick}>
+                                Play
+                            </button>
+                            <div className="pitch-feedback">
+                                <button id="pitch-feedback-button" onClick={PitchFeedback}>
+                                    Pitch Feedback
+                                </button>
+                                { pitchFeedbackEnabled ? <div id="note"></div> : null}
+                            </div>                        
+                        </>
                     )}
                 </div>
                 {!annotateMode ? (
@@ -197,7 +207,7 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
                 ) : (
                     <p>Loading...</p>
                 )}
-                <button onClick={closeModal}>Cancel</button>
+                <button onClick={closeModal}>Let's Practice!</button>
             </Modal>
         </div>
     );
