@@ -343,6 +343,7 @@ input[type="file"] {
 }
 
 #countdown {
+  font-family: Arial, Helvetica, sans-serif;
   position: absolute;
   left: 100px;
   top: 200px;
@@ -351,5 +352,6 @@ input[type="file"] {
   color:rgb(89, 89, 89)
 }
 #note {
+  font-family: Arial, Helvetica, sans-serif;
   opacity: 0;
 }
