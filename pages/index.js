@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import '../src/app/App.css';
@@ -16,6 +16,7 @@ const Main = () => {
   const [drawingEnabled, setDrawingEnabled] = useState(false);
   const [eraseMode, setEraseMode] = useState(false);
   const [clearCanvas, setClearCanvas] = useState(false);
+  const canvasStatesRef = useRef({});
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -34,12 +35,35 @@ const Main = () => {
   };
 
   const handleClearButtonClick = () => {
-    setClearCanvas(true);
-    setTimeout(() => setClearCanvas(false), 0);
+    const canvas = document.querySelector('canvas');
+    const context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    saveCanvasState(canvas);
   };
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
+  };
+
+  const saveCanvasState = (canvas) => {
+    const context = canvas.getContext('2d');
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    canvasStatesRef.current[pageNumber] = imageData;
+  };
+
+  const loadCanvasState = (canvas) => {
+    const context = canvas.getContext('2d');
+    const imageData = canvasStatesRef.current[pageNumber];
+    if (imageData) {
+      context.putImageData(imageData, 0, 0);
+    } else {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  };
+
+  const handlePageChange = (newPageNumber) => {
+    saveCanvasState(document.querySelector('canvas'));
+    setPageNumber(newPageNumber);
   };
 
   return (
@@ -57,18 +81,21 @@ const Main = () => {
         drawingEnabled={drawingEnabled}
         eraseMode={eraseMode}
         clearCanvas={clearCanvas}
+        saveCanvasState={saveCanvasState}
+        loadCanvasState={loadCanvasState}
       />
       <div className="pdf-container">
         <Document
           file="/data/the second waltz/thesecondwaltz.pdf"
-          onLoadSuccess={onDocumentLoadSuccess}>
+          onLoadSuccess={onDocumentLoadSuccess}
+        >
           <Page pageNumber={pageNumber} width={1024} />
         </Document>
       </div>
       <div className="pagenav">
         {pageNumber > 1 && (
           <div className="overlay left">
-            <button className="nav-button" onClick={() => setPageNumber(pageNumber - 1)}>
+            <button className="nav-button" onClick={() => handlePageChange(pageNumber - 1)}>
               Prev Page
             </button>
           </div>
@@ -78,7 +105,7 @@ const Main = () => {
         </div>
         {pageNumber < numPages && (
           <div className="overlay right">
-            <button className="nav-button" onClick={() => setPageNumber(pageNumber + 1)}>
+            <button className="nav-button" onClick={() => handlePageChange(pageNumber + 1)}>
               Next Page
             </button>
           </div>
