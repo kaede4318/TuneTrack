@@ -156,7 +156,7 @@ export default function init(bpm, measures) {
             console.log("stop recording")
             return;
           } else {
-            note = document.getElementById('note').innerText
+            var note = document.getElementById('note').innerText
           }
         }
         if (pixelsPerFrame) {
