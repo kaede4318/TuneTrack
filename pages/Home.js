@@ -62,8 +62,10 @@ const Home = () => {
       }
     ).then(response => response.text());
 
+    // Manually updates BPM from tempo marking found by noggin
     const pdfData = convertToBPM(response)
-    console.log(pdfData);
+    
+    // TODO: Add data to songinfo.json
   };
 
   const handleButtonClick = () => {

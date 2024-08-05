@@ -192,7 +192,7 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
                 ) : (
                     <p>Loading...</p>
                 )}
-                <button onClick={closeModal}>Cancel</button>
+                <button onClick={closeModal}>Let's Practice!</button>
             </Modal>
         </div>
     );
