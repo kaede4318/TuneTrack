@@ -19,13 +19,15 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
     const [suggestions, setSuggestions] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [activeButton, setActiveButton] = useState(null);
+    const [drawingEnabled, setDrawingEnabled] = useState(null);
+    const [eraseEnabled, setEraseEnabled] = useState(null);
 
     const PitchFeedback = () => {
         const btn = document.getElementById("pitch-feedback-button");
         if (btn.classList.contains("enabled")) {
             btn.classList.remove("enabled");
             setPitchFeedbackEnabled(false);
-            
+
             var note = document.getElementById("note")
             note.style.opacity = 0;
         } else {
@@ -42,17 +44,41 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
     const setMode = () => {
         setAnnotateMode(prev => !prev);
         setDisabled(prev => !prev);
+        setDrawingEnabled(false)
+        setEraseEnabled(false)
         setActiveButton(null);
     };
 
     const handleDrawClick = () => {
         onDrawButtonClick();
-        setActiveButton('draw');
+        const drawbtn = document.getElementById("draw-btn");
+        const erasebtn = document.getElementById("erase-btn");
+        // setActiveButton('draw');
+        if (drawingEnabled) {
+            drawbtn.classList.remove("active")
+            setDrawingEnabled(false)
+        } else {
+            drawbtn.classList.add("active")
+            erasebtn.classList.remove("active")
+            setDrawingEnabled(true)
+            setEraseEnabled(false)
+        }
     };
 
     const handleEraseClick = () => {
+        const drawbtn = document.getElementById("draw-btn");
+        const erasebtn = document.getElementById("erase-btn");
         onEraseButtonClick();
-        setActiveButton('erase');
+        // setActiveButton('erase');
+        if (eraseEnabled) {
+            erasebtn.classList.remove("active")
+            setEraseEnabled(false)
+        } else {
+            erasebtn.classList.add("active")
+            drawbtn.classList.remove("active")
+            setEraseEnabled(true)
+            setDrawingEnabled(false)
+        }
     };
 
     const handleClearClick = () => {
@@ -139,12 +165,14 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
                             <button
                                 onClick={handleDrawClick}
                                 className={activeButton === 'draw' ? 'active' : ''}
+                                id="draw-btn"
                             >
                                 Draw
                             </button>,
                             <button
                                 onClick={handleEraseClick}
                                 className={activeButton === 'erase' ? 'active' : ''}
+                                id="erase-btn"
                             >
                                 Erase
                             </button>,

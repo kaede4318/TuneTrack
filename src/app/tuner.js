@@ -150,8 +150,6 @@ export default function init(bpm, measures) {
       const inactivePitchColor = 'rgb(255, 120, 120)'
       context.strokeStyle = pitchColor
       const draw = () => {
-
-        console.log(note)
         const btn = document.getElementById("pitch-feedback-button")
         if (audioContext.state != "closed") {
           if (!btn.classList.contains("enabled")) {
