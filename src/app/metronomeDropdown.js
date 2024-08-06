@@ -1,6 +1,7 @@
 // src/MetronomeDropdown.js
 import React, { useState } from 'react';
-import Metronome from './Metronome';
+import Metronome from './metronome';
+import './App.css';
 
 const MetronomeDropdown = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -11,18 +12,11 @@ const MetronomeDropdown = () => {
 
   return (
     <div style={{ position: 'relative', display: 'inline-block' }}>
-      <button onClick={toggleDropdown}>Metronome</button>
+      <button className="metronome-button" onClick={toggleDropdown}>
+        Metronome
+      </button>
       {showDropdown && (
-        <div style={{
-          position: 'absolute',
-          top: '100%',
-          left: '0',
-          backgroundColor: 'white',
-          boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)',
-          zIndex: 1,
-          padding: '10px',
-          borderRadius: '4px'
-        }}>
+        <div className="metronome-dropdown">
           <Metronome />
         </div>
       )}
@@ -31,3 +25,4 @@ const MetronomeDropdown = () => {
 };
 
 export default MetronomeDropdown;
+

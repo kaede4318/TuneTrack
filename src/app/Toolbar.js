@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMusic, faPen, faHome, faBook } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
 import Practice from './practice';
-import MetronomeDropdown from './MetronomeDropdown';
+import MetronomeDropdown from './metronomeDropdown';
 import MIDIPlayer from 'midi-player-js';
 import Soundfont from 'soundfont-player';
 import { Midi } from '@tonejs/midi';

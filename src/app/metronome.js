@@ -1,5 +1,6 @@
 // src/Metronome.js
 import React, { useState, useEffect, useRef } from 'react';
+import './App.css';
 
 const Metronome = () => {
   const [bpm, setBpm] = useState(120);
@@ -11,7 +12,7 @@ const Metronome = () => {
     if (playing) {
       intervalId.current = setInterval(() => {
         clickRef.current.play();
-        clickRef.current.currentTime = 0; // Reset the playhead to the start
+        clickRef.current.currentTime = 0;
       }, (60 / bpm) * 1000);
     } else {
       clearInterval(intervalId.current);
@@ -28,10 +29,9 @@ const Metronome = () => {
   };
 
   return (
-    <div>
-      <h1>Metronome</h1>
+    <div className="metronome">
       <div>
-        <label htmlFor="bpm">BPM: </label>
+        <label htmlFor="bpm" className="bpm-label">BPM: </label>
         <input
           type="number"
           id="bpm"
@@ -39,6 +39,7 @@ const Metronome = () => {
           onChange={handleBpmChange}
           min="40"
           max="240"
+          className='bpm-input'
         />
       </div>
       <button onClick={togglePlaying}>{playing ? 'Stop' : 'Start'}</button>

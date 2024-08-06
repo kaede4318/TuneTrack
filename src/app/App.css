@@ -348,7 +348,46 @@ input[type="file"] {
   z-index: 3;
   color:#ff5959;
 }
+
 #note {
   font-family: Arial, Helvetica, sans-serif;
   opacity: 0;
+}
+
+.metronome {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  padding: 10px;
+  border-radius: 4px;
+  width: 120px;
+
+}
+
+.metronome button {
+  background-color: #809fd3;
+  font-weight: normal;
+  padding: 8px;
+}
+
+.metronome button:hover {
+  background-color: #7586a2;
+}
+
+.bpm-input {
+  width: 50px;
+  padding: 5px;
+  margin-left: auto;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.bpm-label {
+  margin-left: 5px;
+  color: #333;
 }
