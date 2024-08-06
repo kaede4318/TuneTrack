@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMusic, faPen, faHome, faBook } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
 import Practice from './practice';
+import MetronomeDropdown from './MetronomeDropdown';
 import MIDIPlayer from 'midi-player-js';
 import Soundfont from 'soundfont-player';
 import { Midi } from '@tonejs/midi';
@@ -245,9 +246,12 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
                     )}
                     {/* Renders only when practice mode is on. */}
                     {!annotateMode && (
-                        <button onClick={handlePlayClick}>
-                            Play
-                        </button>
+                        <>
+                            <button onClick={handlePlayClick}>
+                                Play
+                            </button>
+                            <MetronomeDropdown />
+                        </>
                     )}
                 </div>
                 {!annotateMode ? (
