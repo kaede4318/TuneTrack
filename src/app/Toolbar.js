@@ -178,7 +178,7 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
     return (
         <div className={`toolbar ${annotateMode ? 'annotate-mode' : 'play-mode'}`}>
             <div className="home-button-container">
-                <Link href="/Home">
+                <Link href="/">
                     <button id="home-button" title="Home" role="button">
                         <FontAwesomeIcon icon={faHome} />
                     </button>

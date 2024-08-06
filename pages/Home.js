@@ -1,109 +1,147 @@
-import React, { useRef, useState } from 'react';
-import {convertToBPM} from '../src/app/utils';
-import Link from 'next/link';
-import fetch from 'node-fetch';
+import React, { useState, useEffect, useRef } from 'react';
+import { Document, Page, pdfjs } from 'react-pdf';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import '../src/app/App.css';
-import * as pdfjsLib from 'pdfjs-dist';
+import Toolbar from '../src/app/Toolbar';
+import Canvas from '../src/app/canvas';
+import Tuner from '../src/app/tuner';
+import { GlobalWorkerOptions } from 'pdfjs-dist';
 
 // Provide PDF.js worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
-const Home = () => {
-  const fileInputRef = useRef(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+const Main = () => {
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
+  const [drawingEnabled, setDrawingEnabled] = useState(false);
+  const [eraseMode, setEraseMode] = useState(false);
+  const [clearCanvas, setClearCanvas] = useState(false);
+  const canvasStatesRef = useRef({});
 
-  // Opens the inputted pdf in another tab
-  // We don't really need this but its nice to display the pdf back 
-  // to show that the upload was successful
-  const viewPDF = () => {
-    if (selectedFile) {
-      const fileURL = URL.createObjectURL(selectedFile);
-      window.open(fileURL);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setCanvasSize({ width: window.innerWidth, height: window.innerHeight });
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowLeft') {
+        if (pageNumber > 1) {
+          handlePageChange(pageNumber - 1);
+        }
+      } else if (event.key === 'ArrowRight') {
+        if (pageNumber < numPages) {
+          handlePageChange(pageNumber + 1);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [pageNumber, numPages]);
+
+  const handleDrawButtonClick = () => {
+    setDrawingEnabled(true);
+    setEraseMode(false);
+  };
+
+  const handleEraseButtonClick = () => {
+    setDrawingEnabled(false);
+    setEraseMode(true);
+  };
+
+  const handleClearButtonClick = () => {
+    const canvas = document.querySelector('canvas');
+    const context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    saveCanvasState(canvas);
+  };
+
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+  };
+
+  const saveCanvasState = (canvas) => {
+    const context = canvas.getContext('2d');
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    canvasStatesRef.current[pageNumber] = imageData;
+  };
+
+  const loadCanvasState = (canvas) => {
+    const context = canvas.getContext('2d');
+    const imageData = canvasStatesRef.current[pageNumber];
+    if (imageData) {
+      context.putImageData(imageData, 0, 0);
     } else {
-      alert("No file uploaded! Please upload a pdf first.");
+      context.clearRect(0, 0, canvas.width, canvas.height);
     }
   };
 
-  const sendPdfToNoggin = async (file) => {
-    const arrayBuffer = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-    const page = await pdf.getPage(1);
-    const viewport = page.getViewport({ scale: 1.5 });
-
-    // Create a native HTML5 canvas element
-    const canvas = document.createElement('canvas');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height / 3;
-    const context = canvas.getContext('2d');
-
-    // Render only the top 1/3 of the PDF page onto the canvas
-    // Note: we render only the top 1/3 to make the CV noggin more efficient
-    const renderContext = {
-      canvasContext: context,
-      viewport: viewport.clone({ height: viewport.height / 3 })
-    };
-
-    await page.render(renderContext).promise;
-
-    const croppedDataUrl = canvas.toDataURL('image/png');
-
-    // Send the cropped png to noggin
-    const response = await fetch(
-      'https://noggin.rea.gent/intense-sole-1123',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer rg_v1_01k22lhb4e9ej5advf89jmpbrnz4k1wg6hgr_ngk',
-        },
-        body: JSON.stringify({
-          "picture": croppedDataUrl,
-        }),
-      }
-    ).then(response => response.text());
-
-    // Manually updates BPM from tempo marking found by noggin
-    const pdfData = convertToBPM(response)
-    
-    // TODO: Add data to songinfo.json
-  };
-
-  const handleButtonClick = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleFileChange = async (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
-    await sendPdfToNoggin(file);
+  const handlePageChange = (newPageNumber) => {
+    saveCanvasState(document.querySelector('canvas'));
+    setPageNumber(newPageNumber);
   };
 
   return (
-    <div className="home-container">
-      <h1 className="app-name">TuneTrack</h1>
-      <div className="upload-container">
-        <button onClick={handleButtonClick} className="custom-file-upload">
-          Upload Sheet Music
-        </button>
-        <input
-          id="file-upload"
-          type="file"
-          accept=".pdf"
-          style={{ display: 'none' }}
-          ref={fileInputRef}
-          onChange={handleFileChange}
+    <div className="pdf-viewer">
+      <div className="Toolbar-container">
+        <Toolbar
+          onDrawButtonClick={handleDrawButtonClick}
+          onEraseButtonClick={handleEraseButtonClick}
+          onClearButtonClick={handleClearButtonClick}
         />
       </div>
-      <button id='previewButton' onClick={viewPDF}>Preview File Upload (Opens in New Tab)</button>
-      <Link href="/Gallery" legacyBehavior>
-        <a>
-          <button id="galleryNavButton">
-            Go to Gallery
-          </button>
-        </a>
-      </Link>
+      {!drawingEnabled && !eraseMode && (<canvas 
+        width={1024}
+        height={1366}
+        className="visualizer"
+        style={{position: 'absolute', top: 0, zIndex: 2}}
+      />)}
+      {!drawingEnabled && !eraseMode && (<div 
+        id="countdown"
+      />)}
+      <Canvas
+        width={canvasSize.width}
+        height={canvasSize.height}
+        drawingEnabled={drawingEnabled}
+        eraseMode={eraseMode}
+        clearCanvas={clearCanvas}
+        saveCanvasState={saveCanvasState}
+        loadCanvasState={loadCanvasState}
+      />
+      <div className="pdf-container">
+        <Document
+          file="/data/the second waltz/thesecondwaltz.pdf"
+          onLoadSuccess={onDocumentLoadSuccess}
+        >
+          <Page pageNumber={pageNumber} width={1024} />
+        </Document>
+      </div>
+      <div className="pagenav">
+        {pageNumber > 1 && (
+          <div className="overlay left">
+            <button id="prev-btn" className="nav-button" onClick={() => setPageNumber(pageNumber - 1)}>
+              Prev Page
+            </button>
+          </div>
+        )}
+        <div className="overlay middle">
+          Page {pageNumber} of {numPages}
+        </div>
+        {pageNumber < numPages && (
+          <div className="overlay right">
+            <button id="next-btn" className="nav-button" onClick={() => setPageNumber(pageNumber + 1)}>
+              Next Page
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
-export default Home;
+export default Main;
