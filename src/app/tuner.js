@@ -51,6 +51,8 @@ export default function init(bpm, measures) {
     }
   
     // Visualizing, copied from voice change o matic
+    var pagenav = document.querySelector(".pagenav")
+    pagenav.style.display='none';
     var canvas = document.querySelector('.visualizer');
     var context = canvas.getContext("2d");
     var WIDTH;
@@ -61,7 +63,7 @@ export default function init(bpm, measures) {
     const PAGE2_Y = 180;
     var xPos = PAGE1_X;
     var yPos = PAGE1_Y;
-  
+
     function visualize() {
       context.lineWidth = 2;
       WIDTH = canvas.width;
@@ -154,6 +156,7 @@ export default function init(bpm, measures) {
         if (audioContext.state != "closed") {
           if (!btn.classList.contains("enabled")) {
             console.log("stop recording")
+            pagenav.style.display='block';
             return;
           } else {
             var note = document.getElementById('note').innerText
@@ -218,6 +221,7 @@ export default function init(bpm, measures) {
         if (audioContext.state != "closed") {
           if (!btn.classList.contains("enabled")) {
             console.log("stop recording")
+            pagenav.style.display='block';
             audioContext.close();
             return;
           }
