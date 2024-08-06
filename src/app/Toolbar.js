@@ -275,7 +275,7 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
                     {!annotateMode && (
                         <>
                             <button onClick={handlePlayClick}>
-                                Play
+                                {isPlaying ? 'Pause' : 'Play'}
                             </button>
                             <MetronomeDropdown />
                         </>
