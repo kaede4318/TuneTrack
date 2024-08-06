@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMusic, faPen, faHome, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faMusic, faPen, faHome, faBook, faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
 import Practice from './practice';
 import MetronomeDropdown from './metronomeDropdown';
@@ -274,8 +274,8 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
                     {/* Renders only when practice mode is on. */}
                     {!annotateMode && (
                         <>
-                            <button onClick={handlePlayClick}>
-                                {isPlaying ? 'Pause' : 'Play'}
+                            <button id='playpause-button' title={isPlaying ? 'Pause MIDI' : 'Play MIDI'} onClick={handlePlayClick}>
+                                {isPlaying ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />}
                             </button>
                             <MetronomeDropdown />
                         </>

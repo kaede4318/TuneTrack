@@ -126,9 +126,9 @@ button:hover {
   position: absolute;
   z-index: 1;
   background: #bac8e0;
-  border-radius: 0px 0px 5px 5px;
+  border-radius: 5px;
   padding: 10px;
-  margin: 0px 0px 5px 5px;
+  margin: 5px;
   top: 65px;
   width: inherit;
 }
@@ -390,4 +390,9 @@ input[type="file"] {
 .bpm-label {
   margin-left: 5px;
   color: #333;
+}
+
+#playpause-button {
+  padding-left: 12px;
+  padding-right: 12px;
 }
