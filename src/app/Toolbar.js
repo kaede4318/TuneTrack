@@ -29,6 +29,7 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
     const [eraseEnabled, setEraseEnabled] = useState(null);
     const [player, setPlayer] = useState(null);
     const [soundfontPlayer, setSoundfontPlayer] = useState(null);
+    const [isPlaying, setPlayButton] = useState(false);
 
     useEffect(() => {
         const newPlayer = new MIDIPlayer.Player({
@@ -68,36 +69,62 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
     const handleClick = () => {
         alert("You clicked me!");
     };
-
+    let synth;
+    let part;
+    
     const handlePlayClick = async () => {
-        try {
-            console.log('Fetching MIDI file...');
-            const response = await fetch('/data/the second waltz/thesecondwaltz.mid');
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const arrayBuffer = await response.arrayBuffer();
-        
-            console.log('Parsing MIDI file...');
-            const midi = new Midi(arrayBuffer);
-        
-            await Tone.start(); // Ensure Tone.js is started
-            const synth = new Tone.Synth().toDestination();
-
-            midi.tracks.forEach(track => {
-                track.notes.forEach(note => {
-                    const noteTime = note.time;
-                    const noteDuration = note.duration;
-                    // Schedule note playback
-                    synth.triggerAttackRelease(note.name, noteDuration, noteTime + Tone.now());
+        if (!isPlaying) {
+            try {
+                setPlayButton(true);
+                console.log('Fetching MIDI file...');
+                const response = await fetch('/data/the second waltz/thesecondwaltz.mid');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const arrayBuffer = await response.arrayBuffer();
+    
+                console.log('Parsing MIDI file...');
+                const midi = new Midi(arrayBuffer);
+    
+                await Tone.start();
+                synth = new Tone.Synth().toDestination();
+    
+                const notes = [];
+                midi.tracks.forEach(track => {
+                    track.notes.forEach(note => {
+                        notes.push({
+                            time: note.time,
+                            note: note.name,
+                            duration: note.duration
+                        });
+                    });
                 });
-            });
-
-            console.log('Playing MIDI file...');
-        } catch (error) {
-         console.error('Error loading or playing MIDI file:', error);
+    
+                part = new Tone.Part((time, value) => {
+                    synth.triggerAttackRelease(value.note, value.duration, time);
+                }, notes).start(0);
+    
+                Tone.Transport.start();
+                console.log('Playing MIDI file...');
+            } catch (error) {
+                console.error('Error loading or playing MIDI file:', error);
+            }
+        } else {
+            if (part) {
+                part.stop();
+                part.dispose();
+                part = null;
+            }
+            if (synth) {
+                synth.dispose();
+                synth = null;
+            }
+            Tone.Transport.stop();
+            console.log('Stopped MIDI playback.');
+            setPlayButton(false);
         }
     };
+    
 
     
 
