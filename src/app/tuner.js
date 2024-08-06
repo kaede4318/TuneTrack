@@ -58,7 +58,7 @@ export default function init(bpm, measures) {
     var WIDTH;
     var HEIGHT;
     const PAGE1_X = 125;
-    const PAGE1_Y = 355;
+    const PAGE1_Y = 365;
     const PAGE2_X = 110;
     const PAGE2_Y = 180;
     var xPos = PAGE1_X;
@@ -70,58 +70,17 @@ export default function init(bpm, measures) {
       HEIGHT = canvas.height;
 
        // Thanks to PitchDetect: https://github.com/cwilso/PitchDetect/blob/master/js/pitchdetect.js
-       var noteStrings = ["C 1", "C# 1", "D 1", "D# 1", "E 1", "F 1", "F# 1", "G 1", "G# 1", "A 1", "A# 1", "B 1", "C 2", "C# 2", "D 2", "D# 2", "E 2", "F 2", "F# 2", "G 2", "G# 2", "A 2", "A# 2", "B 2", "C 3", "C# 3", "D 3", "D# 3", "E 3", "F 3", "F# 3", "G 3", "G# 3", "A 3", "A# 3", "B 3", "C 4", "C# 4", "D 4", "D# 4", "E 4", "F 4", "F# 4", "G 4", "G# 4", "A 4", "A# 4", "B 4"];
        var yOffset = 0
-       const offset = 2
-       var noteMap = new Map([
-         ["C 1", -offset*29],
-         ["C# 1", -offset*28],
-         ["D 1", -offset*27],
-         ["D# 1", -offset*26],
-         ["E 1", -offset*25],
-         ["F 1", -offset*24],
-         ["F# 1", -offset*23],
-         ["G 1", -offset*21],
-         ["G# 1", -offset*20],
-         ["A 1", -offset*19],
-         ["A# 1", -offset*18],
-         ["B 1", -offset*17],
-         ["C 2", -offset*15],
-         ["C# 2", -offset*14],
-         ["D 2", -offset*13],
-         ["D# 2", -offset*12],
-         ["E 2", -offset*11],
-         ["F 2", -offset*9],
-         ["F# 2", -offset*8],
-         ["G 2", -offset*7],
-         ["G# 2", -offset*6],
-         ["A 2", -offset*5],
-         ["A# 2", -offset*4],
-         ["B 2", -offset*3],
-         ["C 3", 0],
-         ["C# 3", offset*2],
-         ["D 3", offset*3],
-         ["D# 3", offset*4],
-         ["E 3", offset*5],
-         ["F 3", offset*7],
-         ["F# 3", offset*8],
-         ["G 3", offset*9],
-         ["G# 3", offset*10],
-         ["A 3", offset*11],
-         ["A# 3", offset*12],
-         ["B 3", offset*13],
-         ["C 4", offset*15],
-         ["C# 4", offset*16],
-         ["D 4", offset*17],
-         ["D# 4", offset*18],
-         ["E 4", offset*19],
-         ["F 4", offset*21],
-         ["F# 4", offset*22],
-         ["G 4", offset*23],
-         ["G# 4", offset*24],
-         ["A 4", offset*25],
-         ["A# 4", offset*26],
-         ["B 4", offset*27],
+       const offset = 2.5
+       var noteMap = new Map([["A0", -(offset*56)], ["A#0", -(offset*55)], ["B0", -(offset*54)],
+         ["C1", -(offset*52)], ["C#1", -(offset*51)], ["D1", -(offset*50)], ["D#1", -(offset*49)], ["E1", -(offset*48)], ["F1", -(offset*46)], ["F#1", -(offset*45)], ["G1", -(offset*44)], ["G#1", -(offset*43)], ["A1", -(offset*42)], ["A#1", -(offset*41)], ["B1", -(offset*40)],
+         ["C2", -(offset*38)], ["C#2", -(offset*37)], ["D2", -(offset*36)], ["D#2", -(offset*35)], ["E2", -(offset*34)], ["F2", -(offset*32)], ["F#2", -(offset*31)], ["G2", -(offset*30)], ["G#2", -(offset*29)], ["A2", -(offset*28)], ["A#2", -(offset*27)], ["B2", -(offset*26)],
+         ["C3", -(offset*24)], ["C#3", -(offset*23)], ["D3", -(offset*22)], ["D#3", -(offset*21)], ["E3", -(offset*20)], ["F3", -(offset*18)], ["F#3", -(offset*17)], ["G3", -(offset*16)], ["G#3", -(offset*15)], ["A3", -(offset*14)], ["A#3", -(offset*13)], ["B3", -(offset*12)],
+         ["C4", -(offset*10)], ["C#4", -(offset*9)], ["D4", -(offset*8)], ["D#4", -(offset*7)], ["E4", -(offset*6)], ["F4", -(offset*4)], ["F#4", -(offset*3)], ["G4", -(offset*2)], ["G#4", -offset], ["A4", 0], ["A#4", offset], ["B4", offset*2],
+         ["C5", offset*4], ["C#5", offset*5], ["D5", offset*6], ["D#5", offset*7], ["E5", offset*8], ["F5", offset*10], ["F#5", offset*11], ["G5", offset*12], ["G#5", offset*13], ["A5", offset*14], ["A#5", offset*15], ["B5", offset*16],
+         ["C6", offset*18], ["C#6", offset*19], ["D6", offset*20], ["D#6", offset*21], ["E6", offset*22], ["F6", offset*23], ["F#6", offset*24], ["G6", offset*26], ["G#6", offset*27], ["A6", offset*28], ["A#6", offset*29], ["B6", offset*30],
+         ["C7", offset*32], ["C#7", offset*33], ["D7", offset*34], ["D#7", offset*35], ["E7", offset*36], ["F7", offset*38], ["F#7", offset*39], ["G7", offset*40], ["G#7", offset*41], ["A7", offset*42], ["A#7", offset*43], ["B7", offset*44],
+         ["C8", offset*46],
          ["Too quiet...", 0],
        ]);
 
@@ -231,7 +190,7 @@ export default function init(bpm, measures) {
         var buffer = new Float32Array(bufferLength);
         analyser.getFloatTimeDomainData(buffer);
         var autoCorrelateValue = autoCorrelate(buffer, audioContext.sampleRate)
-  
+
         // Handle rounding
         var valueToDisplay = autoCorrelateValue;
         var roundingValue = 'note'
@@ -242,7 +201,30 @@ export default function init(bpm, measures) {
         } else {
           // Get the closest note
           // Thanks to PitchDetect:
-          valueToDisplay = noteStrings[noteFromPitch(autoCorrelateValue) % 48];
+          valueToDisplay = getNoteFromHz(Math.round(valueToDisplay));
+        }
+
+       function getNoteFromHz(hz) {
+        var noteStrings = ["A0", "A#0", "B0",
+          "C1", "C#1", "D1", "D#1", "E1", "F1", "F#1", "G1", "G#1", "A1", "A#1", "B1", 
+          "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2", 
+          "C3", "C#3", "D3", "D#3", "E3", "F3", "F#3", "G3", "G#3", "A3", "A#3", "B3", 
+          "C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4",
+          "C5", "C#5", "D5", "D#5", "E5", "F5", "F#5", "G5", "G#5", "A5", "A#5", "B5",
+          "C6", "C#6", "D6", "D#6", "E6", "F6", "F#6", "G6", "G#6", "A6", "A#6", "B6",
+          "C7", "C#7", "D7", "D#7", "E7", "F7", "F#7", "G7", "G#7", "A7", "A#7", "B7",
+          "C8"];
+          const semitone = 1.059
+          const A4 = 440
+          const A4index = 48
+          console.log(noteStrings[A4index])
+          console.log(hz)
+          var n = 12 * Math.log2(hz/440)
+          console.log(n)
+          n = Math.round(n)
+          console.log(n)
+          console.log(noteStrings[A4index + n])
+          return noteStrings[A4index + n]
         }
   
         var smoothingValue = 'basic'
