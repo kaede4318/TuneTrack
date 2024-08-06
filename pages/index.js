@@ -25,6 +25,25 @@ const Main = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowLeft') {
+        if (pageNumber > 1) {
+          handlePageChange(pageNumber - 1);
+        }
+      } else if (event.key === 'ArrowRight') {
+        if (pageNumber < numPages) {
+          handlePageChange(pageNumber + 1);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [pageNumber, numPages]);
+
   const handleDrawButtonClick = () => {
     setDrawingEnabled(true);
     setEraseMode(false);

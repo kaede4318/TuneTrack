@@ -168,14 +168,14 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
                                 id="draw-btn"
                             >
                                 Draw
-                            </button>,
+                            </button>
                             <button
                                 onClick={handleEraseClick}
                                 className={activeButton === 'erase' ? 'active' : ''}
                                 id="erase-btn"
                             >
                                 Erase
-                            </button>,
+                            </button>
                             <button
                                 onClick={handleClearClick}
                                 className="clear-button"
