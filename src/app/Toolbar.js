@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMusic, faPen, faHome, faBook } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
 import Practice from './practice';
+import MIDIPlayer from 'midi-player-js';
+import Soundfont from 'soundfont-player';
+import { Midi } from '@tonejs/midi';
+import * as Tone from 'tone';
+
 
 // Set the app element for accessibility
 if (typeof document !== 'undefined') {
@@ -21,6 +26,28 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
     const [activeButton, setActiveButton] = useState(null);
     const [drawingEnabled, setDrawingEnabled] = useState(null);
     const [eraseEnabled, setEraseEnabled] = useState(null);
+    const [player, setPlayer] = useState(null);
+    const [soundfontPlayer, setSoundfontPlayer] = useState(null);
+
+    useEffect(() => {
+        const newPlayer = new MIDIPlayer.Player({
+            onEvent: function(event) {
+                if (event.name === 'Note on' && event.velocity > 0) {
+                    if (soundfontPlayer) {
+                        soundfontPlayer.play(event.noteName, 0, { gain: event.velocity / 127 });
+                    }
+                }
+            },
+            onEnd: function() {
+                console.log('Playback ended');
+            }
+        });
+        setPlayer(newPlayer);
+        
+        Soundfont.instrument(new AudioContext(), 'acoustic_grand_piano').then(instrument => {
+            setSoundfontPlayer(instrument);
+        });
+    }, []);
 
     const PitchFeedback = () => {
         const btn = document.getElementById("pitch-feedback-button");
@@ -40,6 +67,38 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
     const handleClick = () => {
         alert("You clicked me!");
     };
+
+    const handlePlayClick = async () => {
+        try {
+            console.log('Fetching MIDI file...');
+            const response = await fetch('/data/the second waltz/thesecondwaltz.mid');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const arrayBuffer = await response.arrayBuffer();
+        
+            console.log('Parsing MIDI file...');
+            const midi = new Midi(arrayBuffer);
+        
+            await Tone.start(); // Ensure Tone.js is started
+            const synth = new Tone.Synth().toDestination();
+
+            midi.tracks.forEach(track => {
+                track.notes.forEach(note => {
+                    const noteTime = note.time;
+                    const noteDuration = note.duration;
+                    // Schedule note playback
+                    synth.triggerAttackRelease(note.name, noteDuration, noteTime + Tone.now());
+                });
+            });
+
+            console.log('Playing MIDI file...');
+        } catch (error) {
+         console.error('Error loading or playing MIDI file:', error);
+        }
+    };
+
+    
 
     const setMode = () => {
         setAnnotateMode(prev => !prev);
@@ -186,11 +245,9 @@ export default function Toolbar({ onDrawButtonClick, onEraseButtonClick, onClear
                     )}
                     {/* Renders only when practice mode is on. */}
                     {!annotateMode && (
-                        <>
-                            <button onClick={handleClick}>
-                                Play
-                            </button>               
-                        </>
+                        <button onClick={handlePlayClick}>
+                            Play
+                        </button>
                     )}
                 </div>
                 {!annotateMode ? (
