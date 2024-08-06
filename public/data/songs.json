@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Ария с вариациями (Гольдберг-вариации) (BWV 988): Ария (Тема)",
+    "composer": "И. С. Бах (1685-1750)",
+    "instrument": "Piano",
+    "tempo_marking": "Andante cantabile",
+    "tempo_bpm": ""
+  },
+  {
+    "title": "Valse",
+    "composer": "Frédéric Chopin",
+    "instrument": "",
+    "tempo_marking": "Allegretto",
+    "tempo_bpm": 112
+  },
+  {
+    "title": "Trois Mazurkas",
+    "composer": "F. Chopin",
+    "instrument": "Piano",
+    "tempo_marking": "Moderato",
+    "tempo_bpm": 108
+  }
+]

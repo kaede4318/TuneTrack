@@ -66,7 +66,23 @@ const Home = () => {
     const pdfData = convertToBPM(response)
     
     // TODO: Add data to songinfo.json
+    saveJsonData(pdfData);
   };
+
+  async function saveJsonData(data) {
+    const jsonData = data
+  
+    const response = await fetch('/api/save-json', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(jsonData),
+    });
+  
+    const result = await response.json();
+    console.log(result);
+  }
 
   const handleButtonClick = () => {
     fileInputRef.current.click();

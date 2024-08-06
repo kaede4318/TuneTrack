@@ -27,7 +27,7 @@ tempoDict.set("presto", 184);
 tempoDict.set("prestissimo", 200);
 
 // Converts parsed tempo marking from noggin to tempo in bpm
-// Returns JSON object in string format.
+// Returns result in JSON format
 export function convertToBPM(jsonStr) {
     let jsonObj = JSON.parse(jsonStr);
     let tempoMarking = jsonObj.tempo_marking
@@ -38,5 +38,5 @@ export function convertToBPM(jsonStr) {
     // get tempo_bpm from dictionary. if not found, return "".
     jsonObj.tempo_bpm = tempoDict.get(tempoMarking) || "";
 
-    return JSON.stringify(jsonObj)
+    return jsonObj
     }
