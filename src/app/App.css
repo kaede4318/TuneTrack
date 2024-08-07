@@ -1,3 +1,11 @@
+html {
+  background-color: #fff;
+}
+
+body {
+  margin: 0;
+}
+
 .pdf-viewer {
   display: flex;
   flex-direction: column;
