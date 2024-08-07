@@ -1,9 +1,20 @@
 html {
-  background-color: #fff;
+  background: #fff;
 }
 
 body {
   margin: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+#__next {
+  height: 100vh;
+  width: 100vw;
+}
+
+.gradient {
+  background: linear-gradient(to right, #d1bfe0, rgba(41, 163, 174, 0.5))
 }
 
 .pdf-viewer {
@@ -243,6 +254,8 @@ input[type="file"] {
   background: linear-gradient(to right, #d1bfe0, rgba(41, 163, 174, 0.5));
   padding: 20px;
   position: relative;
+  height: 100vh;
+  width: 100vw;
 }
 
 .gallery-item {
@@ -255,10 +268,7 @@ input[type="file"] {
 }
 
 .iframe-wrapper .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  width: 50%;
   height: 100%;
   background: rgba(255, 255, 255, 0);
   color: rgba(41, 163, 174, 0.792);
