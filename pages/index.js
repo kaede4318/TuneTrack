@@ -4,6 +4,8 @@ import Link from 'next/link';
 import fetch from 'node-fetch';
 import '../src/app/App.css';
 import * as pdfjsLib from 'pdfjs-dist';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faMusic} from '@fortawesome/free-solid-svg-icons';
 
 // Provide PDF.js worker
 pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
@@ -96,7 +98,11 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <h1 className="app-name">TuneTrack</h1>
+      <header className="header">
+        <FontAwesomeIcon icon={faMusic} className="header-icon left-icon" />
+        <h1 className="app-name">TuneTrack</h1>
+        <FontAwesomeIcon icon={faMusic} className="header-icon right-icon" />
+      </header>
       <div className="upload-container">
         <button onClick={handleButtonClick} className="custom-file-upload">
           Upload Sheet Music
