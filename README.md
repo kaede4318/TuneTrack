@@ -46,3 +46,6 @@ npm run dev
 ```
 
 And put the link `http://localhost:3000` in your browser.
+
+## Note
+Due to some OS differences, the "Pitch Recognition" feature only works on Windows.
