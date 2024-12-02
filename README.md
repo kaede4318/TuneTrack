@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/7423827e-8769-4183-8816-1b411897f158)
+
 # cs160 Final Project - TuneTrack
 Group #14 ~ Nerdy Narwhals
 
